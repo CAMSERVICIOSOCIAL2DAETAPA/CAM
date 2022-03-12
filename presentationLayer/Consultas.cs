@@ -32,17 +32,19 @@ namespace presentationLayer
 
             altaDataGridView.AllowUserToOrderColumns = true;
             altaDataGridView.AllowUserToResizeColumns = true;
-
+            
             altaDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             altaDataGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
-            altaDataGridView.Columns[1].Visible = false;
-            altaDataGridView.Columns[2].Visible = false;
-            altaDataGridView.Columns[7].Visible = false;
+            //altaDataGridView.Columns[1].Visible = true;
+            //altaDataGridView.Columns[2].Visible = false;
+            //altaDataGridView.Columns[7].Visible = false;
             //altaDataGridView.Columns[3].Visible = false;
-            altaDataGridView.Columns[0].HeaderCell.Value = "Matricula";
-            altaDataGridView.Columns[1].HeaderCell.Value = "Fecha de registro";
-            altaDataGridView.Columns[2].HeaderCell.Value = "Ciclo escolar";
-            altaDataGridView.Columns[3].HeaderCell.Value = "Nombre";
+            altaDataGridView.Columns[0].HeaderCell.Value = "Matrícula";
+            altaDataGridView.Columns[1].HeaderCell.Value = "Nombre";
+            altaDataGridView.Columns[2].HeaderCell.Value = "Teléfono contacto de emergencia";
+            altaDataGridView.Columns[3].HeaderCell.Value = "Alergias";
+            altaDataGridView.Columns[4].HeaderCell.Value = "Discapacidades";
+            /*altaDataGridView.Columns[3].HeaderCell.Value = "Nombre";
             altaDataGridView.Columns[4].HeaderCell.Value = "Apellido paterno";
             altaDataGridView.Columns[5].HeaderCell.Value = "Apellido materno";
             altaDataGridView.Columns[6].HeaderCell.Value = "Fecha de nacimiento";
@@ -55,8 +57,8 @@ namespace presentationLayer
             altaDataGridView.Columns[13].HeaderCell.Value = "Numero";
             altaDataGridView.Columns[14].HeaderCell.Value = "Telefono";
             altaDataGridView.Columns[15].HeaderCell.Value = "Escuela";
-            altaDataGridView.Columns[16].HeaderCell.Value = "Atendido";
-            checkboxDgv.HeaderText = "Seleccion";
+            altaDataGridView.Columns[16].HeaderCell.Value = "Atendido";*/
+            checkboxDgv.HeaderText = "Selección";
             checkboxDgv.Name = "chbSeleccion";
             checkboxDgv.FlatStyle = FlatStyle.Standard;
             altaDataGridView.Columns.Add(checkboxDgv);
@@ -65,7 +67,16 @@ namespace presentationLayer
 
             altaDataGridView.Location = new Point((int)(x * 0.15), (int)(y * 0.25));
             altaDataGridView.Size = new Size((int)(x * 0.7), (int)(y * 0.55));
-    }
+
+            //Sentencia que manda a llamar el método para cerrar Consultas usando la X
+            this.FormClosed += new FormClosedEventHandler(cerrarForm);
+        }
+
+        //Metodo para cerrar Consultas usando la X ya que antes se cerraba pero se seguía ejecutando.
+        private void cerrarForm(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
 
         private void modificarButton_Click_1(object sender, EventArgs e)
         {

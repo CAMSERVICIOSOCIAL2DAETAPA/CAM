@@ -25,7 +25,7 @@ namespace presentationLayer
 
             infoGen(nombreAlLabel, nombreAl, nombreAlPanel, apellidoPLabel, apellidoP, apellidoPPanel, apellidoMLabel, apellidoM, apellidoMPanel, fechaNaLabel, fechaNa, añosCumLabel, 
                 añosCum,añosCumPanel, curpLabel,curp,curpPanel, direccionAlumnoLabel,calleLabel, calle,callePanel, numeroCasaLabel, numeroCasa,numeroCasaPanel, coloniaLabel,colonia,coloniaPanel,lugarNaLabel,
-                ciudadLabel,ciudad,ciudadPanel,estadoLabel,estado,estadoPanel);
+                ciudadLabel,ciudad,ciudadPanel,estadoLabel,estado,estadoPanel,fotoAl,fotoBtn);
 
             infoGen2(telPersonalLabel, telPersonal,telPersonalPanel, escuelaPLabel, escuelaP,escuelaPPanel, canalizadoLabel, canalizado,canalizadoPanel, cicloEscLabel, cicloEsc,cicloEscPanel,tipoIngLabel,
                 tipoIngresoGroupBox);
@@ -36,8 +36,8 @@ namespace presentationLayer
                 telTrabajoTLabel,telTrabajoT,telTrabajoTPanel,ocupacionLabel,ocupacion,ocupacionTPanel);
 
             infoMedica(servMedicoLabel, servMedico,servMedicoPanel, grupoSanguineoLabel, grupoSanguineo,grupoSanguineoPanel, telefonoLabel,
-                telefono,telefonoPanel,discapacidadLabel,discapacidad,enfermedadesLabel, enfermedades,
-                alergiasLabel, alergias,tratamientoLabel,tratamiento,tratamientoPanel,discapacidadesCombobox,enfermedadesCombobox,alergiasCombobox,
+                telefono,telefonoPanel,discapacidadLabel,discapacidad,discapacidadPanel,enfermedadesLabel, enfermedades,enfermedadesPanel,
+                alergiasLabel, alergias,alergiasPanel,tratamientoLabel,tratamiento,tratamientoPanel, eliminarTratamientoButton,discapacidadesCombobox,enfermedadesCombobox,alergiasCombobox,
                 eliminarDiscapacidadesButton,
                 eliminarEnfermedadButton,eliminarAlergiasButton);
 
@@ -100,59 +100,65 @@ namespace presentationLayer
             Label fechaNaL, DateTimePicker fechaNa, Label añosCumL, TextBox añosCum, Panel añosCumP, Label curpL, TextBox curp, Panel curpP,
             Label direccion, Label calleL,
             TextBox calle, Panel calleP, Label numL, TextBox num, Panel numP, Label coloniaL, TextBox colonia, Panel coloniaP, Label lugarNa,
-            Label ciudadL, TextBox ciudad, Panel ciudadP, Label estadoL, TextBox estado, Panel estadoP)
+            Label ciudadL, TextBox ciudad, Panel ciudadP, Label estadoL, TextBox estado, Panel estadoP, PictureBox foto, Button fotoB)
         {
 
+            foto.Location = new Point(1000,50);
+            foto.Size = new Size(200, 220);
+            fotoB.Location = new Point(1000, 285);
+            fotoB.Size = new Size(200, 45);
+            fotoB.Font = new Font("Gadugi", 14);
+
             nombreL.Location = new Point(50, 50);
-            nombreP.Location = new Point(200, 40);
+            nombreP.Location = new Point(260, 50);
             nombreP.Size = new Size(300,45);
             //nombreP.Padding = new Padding(2,2,2,2);
 
-            apellidoPL.Location = new Point(50,100);
-            apellidoPP.Location = new Point(200,100);
+            apellidoPL.Location = new Point(50,110);
+            apellidoPP.Location = new Point(260,110);
             apellidoPP.Size = new Size(300, 45);
 
-            apellidoML.Location = new Point(50,150);
-            apellidoMP.Location = new Point(200,150);
+            apellidoML.Location = new Point(50,170);
+            apellidoMP.Location = new Point(260,170);
             apellidoMP.Size = new Size(300, 45);
 
-            fechaNaL.Location = new Point(50,200);
-            fechaNa.Location = new Point(200,200);
+            fechaNaL.Location = new Point(50,230);
+            fechaNa.Location = new Point(260,230);
 
-            añosCumL.Location = new Point(50,250);
-            añosCumP.Location = new Point(200,250);
-            añosCumP.Size = new Size(300, 45);
+            añosCumL.Location = new Point(50,290);
+            añosCumP.Location = new Point(260,290);
+            añosCumP.Size = new Size(150, 45);
 
-            curpL.Location = new Point(50,300);
-            curpP.Location = new Point(200,300);
+            curpL.Location = new Point(50,350);
+            curpP.Location = new Point(260,350);
             curpP.Size = new Size(300, 45);
 
             //DIRECCION
-            direccion.Location = new Point(500, 50);
+            direccion.Location = new Point(650, 50);
 
-            calleL.Location = new Point(500,100);
-            calleP.Location = new Point(750,100);
-            calleP.Size = new Size(100, 45);
+            calleL.Location = new Point(650,110);
+            calleP.Location = new Point(740,110);
+            calleP.Size = new Size(240, 45);
 
-            numL.Location = new Point(500,150);
-            numP.Location = new Point(750,150);
-            numP.Size = new Size(100, 45);
+            numL.Location = new Point(650,170);
+            numP.Location = new Point(740,170);
+            numP.Size = new Size(150, 45);
 
-            coloniaL.Location = new Point(500,200);
-            coloniaP.Location = new Point(750,200);
-            coloniaP.Size = new Size(100, 45);
+            coloniaL.Location = new Point(650,230);
+            coloniaP.Location = new Point(740,230);
+            coloniaP.Size = new Size(240, 45);
 
             //LUGAR NACIMIENTO
-            lugarNa.Location = new Point(500, 250);
+            lugarNa.Location = new Point(650, 290);
 
 
-            ciudadL.Location = new Point(500, 300);
-            ciudadP.Location = new Point(750, 300);
-            ciudadP.Size = new Size(100, 45);
+            ciudadL.Location = new Point(650, 350);
+            ciudadP.Location = new Point(740, 350);
+            ciudadP.Size = new Size(240, 45);
 
-            estadoL.Location = new Point(500, 350);
-            estadoP.Location = new Point(750, 350);
-            estadoP.Size = new Size(100, 45);
+            estadoL.Location = new Point(650, 410);
+            estadoP.Location = new Point(740, 410);
+            estadoP.Size = new Size(240, 45);
         }
 
 
@@ -161,24 +167,24 @@ namespace presentationLayer
             TextBox ciclo, Panel cicloP, Label tipoIng,GroupBox ingresos)
         {
             telL.Location = new Point(50, 50);
-            telP.Location = new Point(200, 50);
-            telP.Size = new Size(100, 45);
+            telP.Location = new Point(280, 50);
+            telP.Size = new Size(220, 45);
 
-            escuelaPL.Location = new Point(50,100);
-            escuelaPP.Location = new Point(200,100);
-            escuelaPP.Size = new Size(100, 45);
+            escuelaPL.Location = new Point(50,110);
+            escuelaPP.Location = new Point(280,110);
+            escuelaPP.Size = new Size(250, 45);
 
-            canalizadoL.Location = new Point(50,150);
-            canalizadoP.Location = new Point(200,150);
-            canalizadoP.Size = new Size(150, 45);
+            canalizadoL.Location = new Point(50,170);
+            canalizadoP.Location = new Point(280,170);
+            canalizadoP.Size = new Size(250, 45);
 
-            cicloL.Location = new Point(50,200);
-            cicloP.Location = new Point(200,200);
-            cicloP.Size = new Size(100, 45);
+            cicloL.Location = new Point(50,230);
+            cicloP.Location = new Point(280,230);
+            cicloP.Size = new Size(150, 45);
 
-            tipoIng.Location = new Point(50,250);
+            tipoIng.Location = new Point(50,290);
 
-            ingresos.Location = new Point(50, 300);
+            ingresos.Location = new Point(50, 330);
         }
 
         //INFORMACION TUTOR
@@ -191,87 +197,94 @@ namespace presentationLayer
         {
            
             nombreL.Location = new Point(50,50);
-            nombreP.Location = new Point(200,50);
+            nombreP.Location = new Point(150,50);
             nombreP.Size = new Size(150, 45);
 
-            apellidoPL.Location = new Point(50,100);
-            apellidoPP.Location = new Point(200,100);
+            apellidoPL.Location = new Point(330,50);
+            apellidoPP.Location = new Point(510,50);
             apellidoPP.Size = new Size(150, 45);
 
-            apellidoML.Location = new Point(50,150);
-            apellidoMP.Location = new Point(200,150);
+            apellidoML.Location = new Point(690,50);
+            apellidoMP.Location = new Point(870,50);
             apellidoMP.Size = new Size(150, 45);
 
-            direccion.Location = new Point(50,200);
+            direccion.Location = new Point(50,170);
 
-            calleL.Location = new Point(50,250);
-            calleP.Location = new Point(200,250);
+            calleL.Location = new Point(50,230);
+            calleP.Location = new Point(150,230);
             calleP.Size = new Size(150, 45);
 
-            numL.Location = new Point(50,300);
-            numP.Location = new Point(200,300);
+            numL.Location = new Point(330,230);
+            numP.Location = new Point(460,230);
             numP.Size = new Size(150, 45);
 
-            coloniaL.Location = new Point(50,350);
-            coloniaP.Location = new Point(200,350);
+            coloniaL.Location = new Point(690,230);
+            coloniaP.Location = new Point(810,230);
             coloniaP.Size = new Size(150, 45);
 
-            infoCon.Location = new Point(50,400);
+            infoCon.Location = new Point(50,350);
 
-            telCasaL.Location = new Point(50,450 );
-            telCasaP.Location = new Point(200, 450);
+            telCasaL.Location = new Point(50,410 );
+            telCasaP.Location = new Point(200, 410);
             telCasaP.Size = new Size(150, 45);
 
-            telMovilL.Location = new Point(50, 500);
-            telMovilP.Location = new Point(200, 500);
+            telMovilL.Location = new Point(390, 410);
+            telMovilP.Location = new Point(550, 410);
             telMovilP.Size = new Size(150, 45);
 
-            telTrabajoL.Location = new Point(50, 550);
-            telTrabajoP.Location = new Point(200, 550);
+            telTrabajoL.Location = new Point(740, 410);
+            telTrabajoP.Location = new Point(920, 410);
             telTrabajoP.Size = new Size(150, 45);
 
-            ocupacionL.Location = new Point(50, 600);
-            ocupacionP.Location = new Point(200, 600);
+            ocupacionL.Location = new Point(390, 530);
+            ocupacionP.Location = new Point(550, 530);
             ocupacionP.Size = new Size(150, 45);
         }
 
         //INFORMACION MEDICA
         private void infoMedica(Label servMedicoL, TextBox servMed, Panel servMedP, Label grupoSanL, TextBox grupoSan, Panel grupoSanP, 
-            Label telL, TextBox tel, Panel telP, Label discapacidadL, RichTextBox discapacidad,
-            Label enfermedadL, RichTextBox enfermedad, Label alergiaL, RichTextBox alergia , 
-            Label tratamientoL, RichTextBox tratamiento, Panel tratamientoP,
+            Label telL, TextBox tel, Panel telP, Label discapacidadL, RichTextBox discapacidad, Panel discapacidadP,
+            Label enfermedadL, RichTextBox enfermedad, Panel enfermedadP, Label alergiaL, RichTextBox alergia, Panel alergiaP,
+            Label tratamientoL, RichTextBox tratamiento, Panel tratamientoP,Button eliTra,
             ComboBox discapacidadCB, ComboBox enfermedadCB, ComboBox alergiaCB,Button eliDisc, Button eliEnf, Button eliAle)
         {
             servMedicoL.Location = new Point(50, 50);
-            servMedP.Location = new Point(200,50);
-            servMedP.Size = new Size(100, 45);
+            servMedP.Location = new Point(220,50);
+            servMedP.Size = new Size(150, 45);
 
             grupoSanL.Location = new Point(400, 50);
-            grupoSanP.Location = new Point(600, 50);
+            grupoSanP.Location = new Point(580, 50);
             grupoSanP.Size = new Size(100, 45);
 
             telL.Location = new Point(750, 50);
-            telP.Location = new Point(950, 50);
-            telP.Size = new Size(100, 45);
+            telP.Location = new Point(960, 50);
+            telP.Size = new Size(150, 45);
 
             discapacidadL.Location = new Point(50, 150);
-            eliDisc.Location = new Point(200, 150);
-            discapacidad.Location = new Point(50, 180);
-            discapacidadCB.Location = new Point(50, 230);
+            eliDisc.Location = new Point(200,150);
+            discapacidad.Location = new Point(50, 210);
+            discapacidadCB.Location = new Point(50, 310);
+            discapacidadP.Location = new Point(50, 210);
+            discapacidadP.Size = new Size(200, 45);
 
             enfermedadL.Location = new Point(300, 150);
-            eliEnf.Location = new Point(450, 150);
-            enfermedad.Location = new Point(300, 180);
-            enfermedadCB.Location = new Point(300, 230);
+            eliEnf.Location = new Point(450,150);
+            enfermedad.Location = new Point(300, 210);
+            enfermedadCB.Location = new Point(300, 310);
+            enfermedadP.Location = new Point(300, 210);
+            enfermedadP.Size = new Size(200, 45);
 
             alergiaL.Location = new Point(550, 150);
-            eliAle.Location = new Point(650, 150);
-            alergia.Location = new Point(550, 180);
-            alergiaCB.Location = new Point(550, 230);
+            eliAle.Location = new Point(650,150);
+            alergia.Location = new Point(550, 210);
+            alergiaCB.Location = new Point(550, 310);
+            alergiaP.Location = new Point(550, 210);
+            alergiaP.Size = new Size(200, 45);
 
             tratamientoL.Location = new Point(800, 150);
-            tratamientoP.Location = new Point(800, 180);
-            tratamientoP.Size = new Size(100, 45);
+            eliTra.Location = new Point(930,150);
+            tratamientoP.Location = new Point(800, 210);
+            tratamientoP.Size = new Size(120, 45);
         }
 
         private void altaAlumno_Load(object sender, EventArgs e)
@@ -279,6 +292,15 @@ namespace presentationLayer
             limpiarFormato1Button.Hide();
             limpiarFormato2Button.Hide();
             limpiarFormato3Button.Hide();
+
+            this.FormClosed += new FormClosedEventHandler(cerrarForm);
+        }
+
+        private void cerrarForm(object sender, EventArgs e)
+        {
+            Consultas formConsultas = new Consultas();
+            this.Hide();
+            formConsultas.Show();
         }
 
 
@@ -303,6 +325,9 @@ namespace presentationLayer
                                               escuelaP.Text,
                                               canalizado.Text
                                               );
+
+                //businessLayer.Hueso.SetTutor(nombreT.Text,apellidoPT.Text,apellidoMT.Text,coloniaT.Text,calleT.Text,numeroCasaT.Text,ocupacion.Text);
+                //businessLayer.Hueso.SetinfoMedAlumno(servMedico.Text,grupoSanguineo.Text,telefono.Text);
 
                 this.Hide();
                 Consultas consultas = new Consultas();
@@ -541,5 +566,67 @@ namespace presentationLayer
             realizarAltaButton.Visible = true;
         }
 
+        //Cargar y Mostrar Foto Alumno ALTA ALUMNO
+        private void fotoBtn_Click(object sender, EventArgs e)
+        {
+            openFileDialog1.Filter = "Imagenes|*.jpg; *.png";
+            openFileDialog1.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+            openFileDialog1.Title = "Seleccionar Imagen";
+
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                fotoAl.Image = Image.FromFile(openFileDialog1.FileName);
+            }
+        }
+
+        private void realizarAltaButton_Click_1(object sender, EventArgs e)
+        {
+            //Condición de que si no ingresa nombre de alumno y foto de alumno no le deja hacer la alta
+            if (nombreAl.Text == "" && fotoAl.Image == null)
+            {
+                MessageBox.Show("Falta información por ingresar", "ALTA ALUMNO", MessageBoxButtons.OK);
+                return;
+            }
+
+            //Guardar Foto alumno   **NO BORRAR LO QUE ESTÁ COMENTADO!!!!!**
+            /*if (fotoAl.Image == null)
+            {
+                MessageBox.Show("Debes ingresar una imagen");
+                return;
+            }
+            byte[] archivo = null;
+            Stream myStream = openFileDialog1.OpenFile();
+            using (MemoryStream ms = new MemoryStream())
+            {
+                myStream.CopyTo(ms);
+                archivo = ms.ToArray();
+            }
+
+            using (_1dataLayer.BDCAMEntities db = new _1dataLayer.BDCAMEntities())
+            {
+                _1dataLayer.alumno oImage = new _1dataLayer.alumno();
+                db.alumno.Add(oImage);
+                db.SaveChanges();
+            }  
+        }*/
+
+
+            //Condición para permitirle al usuario si desea realizar otra alta o no
+            //Si elige SI, se cierra la ventana de alta y se abre una nueva con los campos limpios
+            //Si elige NO, se cierra la ventana de alta y se abre la ventana de consultas
+            DialogResult dr = MessageBox.Show("Alta realizada con exito! Deseas realizar otra alta?", "ALTA ALUMNO", MessageBoxButtons.YesNo);
+            if (dr == DialogResult.Yes)
+            {
+                this.Hide();
+                altaAlumno formaltaAlumno = new altaAlumno();
+                formaltaAlumno.Show();
+            } else if (dr == DialogResult.No)
+            {
+                this.Hide();
+                Consultas formConsulta = new Consultas();
+                formConsulta.Show();
+            }
+        }
     }
 }
+
