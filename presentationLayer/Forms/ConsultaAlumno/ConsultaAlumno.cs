@@ -1,4 +1,6 @@
-﻿using System;
+﻿using presentationLayer.Forms.BajaAlumno;
+using presentationLayer.Forms.ConsultaFormatos;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -13,7 +15,7 @@ namespace presentationLayer
     public partial class ConsultaAlumno : Form
     {
 
-        public DataGridViewCheckBoxColumn checkboxDgv = new DataGridViewCheckBoxColumn();
+      
         DataTable data = new DataTable();
 
 
@@ -21,11 +23,20 @@ namespace presentationLayer
         {
             InitializeComponent();
             PLConsultaAlumno.consultaBotonesAlumnos(agregarButton,modificarButton,eliminarButton);
-            consultaBotonesParaNavegar(cerrarSesionButton,imprimirFormatosButton,fichaTecnicaButton);
-            consultaBusquedaAlumnos(busquedaPanel,busquedaTextBox, buscarButton);
-            tituloAlumnos(consultaLabel);
+            PLConsultaAlumno.consultaBotonesParaNavegar(cerrarSesionButton,imprimirFormatosButton,fichaTecnicaButton);
+            PLConsultaAlumno.consultaBusquedaAlumnos(busquedaPanel,busquedaTextBox, buscarButton);
+            PLConsultaAlumno.tituloAlumnos(consultaLabel,logo);
+             altaDataGridView.ReadOnly = true;
         }
 
+       
+
+        public void actualizartabla()
+        {
+            altaDataGridView.DataSource = businessLayer.BLConsultaAlumno.alumnosGet();
+            altaDataGridView.Refresh();
+            this.Refresh();
+        }
 
         private void Consultas_Load(object sender, EventArgs e)
         {
@@ -33,42 +44,51 @@ namespace presentationLayer
 
             altaDataGridView.AllowUserToOrderColumns = true;
             altaDataGridView.AllowUserToResizeColumns = true;
-            
+            buscarButton.Enabled = false;
+
+            altaDataGridView.RowsDefaultCellStyle.Padding = new Padding(2, 2, 2, 2);
+            altaDataGridView.RowsDefaultCellStyle.Font = new Font("Gadugi", 11);
+            altaDataGridView.RowsDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+
+            altaDataGridView.AlternatingRowsDefaultCellStyle.Padding = new Padding(2, 2, 2, 2);
+            altaDataGridView.AlternatingRowsDefaultCellStyle.Font = new Font("Gadugi", 11);
+            altaDataGridView.AlternatingRowsDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            altaDataGridView.AlternatingRowsDefaultCellStyle.WrapMode = DataGridViewTriState.True;
+
+            altaDataGridView.ColumnHeadersDefaultCellStyle.Padding = new Padding(0, 0, 0, 0);
+            altaDataGridView.ColumnHeadersDefaultCellStyle.Font = new Font("Gadugi", 11);
+            altaDataGridView.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            altaDataGridView.ColumnHeadersDefaultCellStyle.WrapMode = DataGridViewTriState.True;
+
+            altaDataGridView.DefaultCellStyle.Padding = new Padding(0, 0, 0, 0);
+            altaDataGridView.DefaultCellStyle.Font = new Font("Gadugi", 11);
+            altaDataGridView.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            altaDataGridView.DefaultCellStyle.WrapMode = DataGridViewTriState.False;
+
+            altaDataGridView.RowHeadersDefaultCellStyle.Padding = new Padding(0, 0, 0, 0);
+            altaDataGridView.RowHeadersDefaultCellStyle.Font = new Font("Gadugi", 11);
+            altaDataGridView.RowHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            altaDataGridView.RowHeadersDefaultCellStyle.WrapMode = DataGridViewTriState.True;
+
             altaDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             altaDataGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
-            //altaDataGridView.Columns[1].Visible = true;
-            //altaDataGridView.Columns[2].Visible = false;
-            //altaDataGridView.Columns[7].Visible = false;
-            //altaDataGridView.Columns[3].Visible = false;
-            altaDataGridView.Columns[0].HeaderCell.Value = "Matrícula";
+
+            altaDataGridView.AutoResizeColumns();
+            altaDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+             altaDataGridView.ReadOnly = true;
+
+            /*altaDataGridView.Columns[0].HeaderCell.Value = "Matrícula";
             altaDataGridView.Columns[1].HeaderCell.Value = "Nombre";
             altaDataGridView.Columns[2].HeaderCell.Value = "Teléfono contacto de emergencia";
             altaDataGridView.Columns[3].HeaderCell.Value = "Alergias";
             altaDataGridView.Columns[4].HeaderCell.Value = "Discapacidades";
-            /*altaDataGridView.Columns[3].HeaderCell.Value = "Nombre";
-            altaDataGridView.Columns[4].HeaderCell.Value = "Apellido paterno";
-            altaDataGridView.Columns[5].HeaderCell.Value = "Apellido materno";
-            altaDataGridView.Columns[6].HeaderCell.Value = "Fecha de nacimiento";
-            altaDataGridView.Columns[7].HeaderCell.Value = "Edad";
-            altaDataGridView.Columns[8].HeaderCell.Value = "Curp";
-            altaDataGridView.Columns[9].HeaderCell.Value = "Estado";
-            altaDataGridView.Columns[10].HeaderCell.Value = "Ciudad";
-            altaDataGridView.Columns[11].HeaderCell.Value = "Colonia";
-            altaDataGridView.Columns[12].HeaderCell.Value = "Calle";
-            altaDataGridView.Columns[13].HeaderCell.Value = "Numero";
-            altaDataGridView.Columns[14].HeaderCell.Value = "Telefono";
-            altaDataGridView.Columns[15].HeaderCell.Value = "Escuela";
-            altaDataGridView.Columns[16].HeaderCell.Value = "Atendido";*/
-            checkboxDgv.HeaderText = "Selección";
-            checkboxDgv.Name = "chbSeleccion";
-            checkboxDgv.FlatStyle = FlatStyle.Standard;
-            altaDataGridView.Columns.Add(checkboxDgv);
-
+            */
             altaDataGridView.Location = new Point(230,220);
             altaDataGridView.Size = new Size(1070, 420);
 
             //Sentencia que manda a llamar el método para cerrar Consultas usando la X
             this.FormClosed += new FormClosedEventHandler(cerrarForm);
+
             data = businessLayer.BLConsultaAlumno.ConvertToDatatable((List<_1dataLayer.alumnoenfermedadDTO>)altaDataGridView.DataSource);
         }
 
@@ -139,7 +159,7 @@ namespace presentationLayer
                 if (confirm == DialogResult.Yes)
                 {
 
-                    businessLayer.BLEliminacionAlumno.EliminarColaborador(id);
+                    //businessLayer.BLEliminacionAlumno.EliminarColaborador(id);
 
                     altaDataGridView.DataSource = businessLayer.BLConsultaAlumno.alumnosGet();
 
@@ -163,43 +183,16 @@ namespace presentationLayer
 
         }
 
-      
-        public void tituloAlumnos(Label titulo)
-        {
-            //tamaño pantalla
-            logo.Location = new Point(50, 20);
-
-            //TITULO PRINCIPAL
-            titulo.Location = new Point(620, 50);
-        }
-
-        public void consultaBusquedaAlumnos(Panel panelB, TextBox txBusqueda, Button buscar)
-        {
-            panelB.Location = new Point(540,120);
-            
-            panelB.Size = new Size(400, 50);
-            buscar.Size = new Size(30, 30);
-            txBusqueda.Size = new Size(335, 45);
-            txBusqueda.Font = new Font("Gadugi", 14);
-        }
-
-        public void consultaBotonesParaNavegar(Button cerrarSesion, Button imprimir, Button fichaTecnica)
-        {
-            int x = this.ClientSize.Width, y = this.ClientSize.Height;
-
-
-            cerrarSesion.Location = new Point(230, 660);
-            imprimir.Location = new Point(900, 660);
-            fichaTecnica.Location = new Point(1120, 660);
-
-            cerrarSesion.Size = new Size(180, 75);
-            imprimir.Size = new Size(200, 75);
-            fichaTecnica.Size = new Size(180, 75);
-        }
-
         private void modificarButton_Click(object sender, EventArgs e)
         {
+            int id = 0;
 
+            id = int.Parse(altaDataGridView.CurrentRow.Cells[0].Value.ToString());
+            ConsultaAlumno consultas = new ConsultaAlumno();
+            consultas.Close();
+            this.Hide();
+            fichaTecnica ficha = new fichaTecnica(id,1);
+            ficha.Show();
         }
 
         private void agregarButton_Click(object sender, EventArgs e)
@@ -213,32 +206,36 @@ namespace presentationLayer
 
         private void eliminarButton_Click_1(object sender, EventArgs e)
         {
-
+            int id = 0;
+            id = int.Parse(altaDataGridView.CurrentRow.Cells[0].Value.ToString());
+            bajaAlumno baja = new bajaAlumno(id,this);
+            baja.ShowDialog();
         }
 
         private void imprimirFormatosButton_Click(object sender, EventArgs e)
         {
-
+            ConsultaAlumno consultas = new ConsultaAlumno();
+            consultas.Close();
+            this.Hide();
+            consultaFormatos consultaF = new consultaFormatos();
+            consultaF.Show();
         }
 
         private void fichaTecnicaButton_Click(object sender, EventArgs e)
         {
+            //Int32 selectedCellCount =  altaDataGridView.GetCellCount(DataGridViewElementStates.Selected);
+            int id = 0;
+            id = int.Parse(altaDataGridView.CurrentRow.Cells[0].Value.ToString());
             ConsultaAlumno consultas = new ConsultaAlumno();
             consultas.Close();
             this.Hide();
-            fichaTecnica ficha = new fichaTecnica();
+            fichaTecnica ficha = new fichaTecnica(id,0);
             ficha.Show();
         }
 
-
-        private void busquedaPanel_Paint(object sender, PaintEventArgs e)
+        private void busquedaTextBox_TextChanged(object sender, EventArgs e)
         {
-
-        }
-
-        private void busquedaTextBox_TextChanged_1(object sender, EventArgs e)
-        {
-            //AQUI ESTA EL PROBLEMA, CHECAR EL METODO
+           
             string searchValue = busquedaTextBox.Text.Trim().ToUpper();
             try
             {
@@ -258,6 +255,9 @@ namespace presentationLayer
             {
                 MessageBox.Show(ex.Message);
             }
+
         }
+
+      
     }
 }

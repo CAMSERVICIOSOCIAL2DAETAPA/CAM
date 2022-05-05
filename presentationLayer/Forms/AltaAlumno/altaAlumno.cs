@@ -1,48 +1,64 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Data.Entity.Validation;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace presentationLayer
 {
     public partial class altaAlumno : Form
     {
+        ComboBox enfermedadestempcmb = new ComboBox();
+
+        ComboBox discapacidadestempcmb = new ComboBox();
+
+        ComboBox alergiastempcmb = new ComboBox();
+
+        List<string> listaEnfermedades = new List<string>();
+
+        List<string> listaDiscapacidades = new List<string>();
+
+        List<string> listaAlergias = new List<string>();
+
+        List<int> idenfermermedadesListaAlta = new List<int>();
+
+        List<int> iddiscapacidadesListaAlta = new List<int>();
+
+        List<int> idalergiasListaAlta = new List<int>();
+
         public altaAlumno()
         {
 
             InitializeComponent();
             loaddata();
 
+            grupoSanguineoComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+
 
             //CODIGO NUEVO
-            centrarLabel(altaalumnoLabel, infoTutorLabel, informacionMedLabel, logo, infGeneralAlLabel, informacionGeneralAlumno,
-                informacionGeneralAlumno2, informacionTutor, informacionMedicaAlumnoGroupBox);
+            PLAltaAlumno.centrarLabel(altaalumnoLabel, infoTutorLabel, informacionMedLabel, logo, infGeneralAlLabel, informacionGeneralAlumno,
+                informacionGeneralAlumno2, informacionTutor, informacionMedicaAlumnoGroupBox, infoTutorLabel);
 
-            infoGen(nombreAlLabel, nombreAl, nombreAlPanel, apellidoPLabel, apellidoP, apellidoPPanel, apellidoMLabel, apellidoM, apellidoMPanel, fechaNaLabel, fechaNa, añosCumLabel,
+            PLAltaAlumno.infoGen(nombreAlLabel, nombreAl, nombreAlPanel, apellidoPLabel, apellidoP, apellidoPPanel, apellidoMLabel, apellidoM, apellidoMPanel, fechaNaLabel, fechaNa, añosCumLabel,
                 añosCum, añosCumPanel, curpLabel, curp, curpPanel, direccionAlumnoLabel, calleLabel, calle, callePanel, numeroCasaLabel, numeroCasa, numeroCasaPanel, coloniaLabel, colonia, coloniaPanel, lugarNaLabel,
                 ciudadLabel, ciudad, ciudadPanel, estadoLabel, estado, estadoPanel, fotoAl, fotoBtn);
 
-            infoGen2(telPersonalLabel, telPersonal, telPersonalPanel, escuelaPLabel, escuelaP, escuelaPPanel, canalizadoLabel, canalizado, canalizadoPanel, cicloEscLabel, cicloEsc, cicloEscPanel, tipoIngLabel,
+            PLAltaAlumno.infoGen2(telPersonalLabel, telefonopersonalTextBox, telPersonalPanel, escuelaPLabel, escuelaP, escuelaPPanel, canalizadoLabel, canalizado, canalizadoPanel, cicloEscLabel, cicloEsc, cicloEscPanel, tipoIngLabel,
                 tipoIngresoGroupBox);
 
-            infoTutor(nombreTLabel, nombreT, nombreTPanel, apellidoPTLabel, apellidoPT, apellidoPTPanel, apellidoMTLabel, apellidoMT, apellidoMTPanel, direccionTLabel,
-                calleTLabel, calleT, calleTPanel, numeroCasaTLabel, numeroCasaT, numeroCasaTPanel, coloniaTLabel, coloniaT, coloniaTPanel, 
-                calleDatoLabel, numeroDatoLabel, coloniaDatoLabel, infContactoLabel,telCasaTLabel, telCasaT, telCasaTPanel, telMovilTLabel, telMovilT, telMovilTPanel,
-                telTrabajoTLabel, telTrabajoT, telTrabajoTPanel, ocupacionLabel, ocupacion, ocupacionTPanel, direccionCheckBox);
+            PLAltaAlumno.infoTutor(nombreTLabel, nombreT, nombreTPanel, apellidoPTLabel, apellidoPT, apellidoPTPanel, apellidoMTLabel, apellidoMT, apellidoMTPanel, direccionTLabel,
+                calleTLabel, calleT, calleTPanel, numeroCasaTLabel, numeroCasaT, numeroCasaTPanel, coloniaTLabel, coloniaT, coloniaTPanel,
+                calleDatoLabel, numeroDatoLabel, coloniaDatoLabel, infContactoLabel, telCasaTLabel, telefonocasatutorTextBox, telCasaTPanel, telMovilTLabel, telefonomoviltutorTextBox, telMovilTPanel,
+                telTrabajoTLabel, telefonotrabajotutorTextBox, telTrabajoTPanel, ocupacionLabel, ocupacion, ocupacionTPanel, direccionCheckBox);
 
-            infoMedica(servMedicoLabel, servMedico, servMedicoPanel, grupoSanguineoLabel, grupoSanguineo, grupoSanguineoPanel, grupoSanguineoComboBox, telefonoLabel,
-                telefono, telefonoPanel, discapacidadLabel, discapacidad, discapacidadPanel, enfermedadesLabel, enfermedades, enfermedadesPanel,
-                alergiasLabel, alergias, alergiasPanel, tratamientoLabel, tratamiento, tratamientoPanel, discapacidadesCombobox, enfermedadesCombobox, alergiasCombobox,
+            PLAltaAlumno.infoMedica(servMedicoLabel, servMedico, servMedicoPanel, grupoSanguineoLabel, grupoSanguineoComboBox, telefonoLabel,
+                telefono, telefonoPanel, discapacidadLabel, discapacidadesRichTextBox, discapacidadPanel, enfermedadesLabel, enfermedadesRichTextBox, enfermedadesPanel,
+                alergiasLabel, alergiasRichTextBox, alergiasPanel, tratamientoLabel, tratamiento, tratamientoPanel, discapacidadesCombobox, enfermedadesCombobox, alergiasCombobox,
                 eliminarEnfermedadesButton, eliminarDiscapacidadesButton, eliminarAlergiasButton, eliminarTratamientosButton,
-                 agregarDiscapacidadesButton,agregarEnfermedadesButton, agregarAlergiasButton);
+                 agregarDiscapacidadesButton, agregarEnfermedadesButton, agregarAlergiasButton, eliminardiscapacidadButton1, eliminarenfButton, eliminarAlegiasButton1);
+
 
             informacionGeneralAlumno.Visible = true;
             informacionGeneralAlumno2.Visible = false;
@@ -70,248 +86,7 @@ namespace presentationLayer
             añosCum.Text = edadConvertidaI;
         }
 
-        //CENTRAR TITULO
-        private void centrarLabel(Label nomLabel, Label infoTutorL, Label infoMedLabel, PictureBox logo, Label infGenLabel, GroupBox infoGeneral,
-            GroupBox infoGeneral2, GroupBox infoTutor, GroupBox infoMedica)
-        {
-            //tamaño pantalla
-
-            logo.Location = new Point(50, 20);
-
-            //TITULO PRINCIPAL
-            nomLabel.Location = new Point(620, 50);
-
-            //SUBTITULOS
-            infGenLabel.Location = new Point(620, 120);
-            infoTutorLabel.Location = new Point(670, 120);
-            infoMedLabel.Location = new Point(620, 120);
-
-
-            //GROUPBOXS
-            infoGeneral.Size = new Size(1220, 480);
-            infoGeneral.Location = new Point(180, 180);
-
-            infoGeneral2.Size = new Size(580, 460);
-            infoGeneral2.Location = new Point(510, 180);
-
-            infoTutor.Size = new Size(1100, 480);
-            infoTutor.Location = new Point(260, 180);
-
-            infoMedica.Size = new Size(1220, 440);
-            infoMedica.Location = new Point(180, 180);
-        }
-
-
-        //INFORMACION GENERAL ALUMNO
-        private void infoGen(Label nombreL, TextBox nombre, Panel nombreP, Label apellidoPL, TextBox apellidoP, Panel apellidoPP, Label apellidoML,
-            TextBox apellidoM, Panel apellidoMP,
-            Label fechaNaL, DateTimePicker fechaNa, Label añosCumL, TextBox añosCum, Panel añosCumP, Label curpL, TextBox curp, Panel curpP,
-            Label direccion, Label calleL,
-            TextBox calle, Panel calleP, Label numL, TextBox num, Panel numP, Label coloniaL, TextBox colonia, Panel coloniaP, Label lugarNa,
-            Label ciudadL, TextBox ciudad, Panel ciudadP, Label estadoL, TextBox estado, Panel estadoP, PictureBox foto, Button fotoB)
-        {
-
-            foto.Location = new Point(1000, 50);
-            foto.Size = new Size(200, 220);
-            fotoB.Location = new Point(1000, 285);
-            fotoB.Size = new Size(200, 45);
-            fotoB.Font = new Font("Gadugi", 14);
-
-            nombreL.Location = new Point(50, 50);
-            nombreP.Location = new Point(260, 50);
-            nombreP.Size = new Size(300, 45);
-            //nombreP.Padding = new Padding(2,2,2,2);
-
-            apellidoPL.Location = new Point(50, 110);
-            apellidoPP.Location = new Point(260, 110);
-            apellidoPP.Size = new Size(300, 45);
-
-            apellidoML.Location = new Point(50, 170);
-            apellidoMP.Location = new Point(260, 170);
-            apellidoMP.Size = new Size(300, 45);
-
-            fechaNaL.Location = new Point(50, 230);
-            fechaNa.Location = new Point(260, 230);
-
-            añosCumL.Location = new Point(50, 290);
-            añosCumP.Location = new Point(260, 290);
-            añosCumP.Size = new Size(150, 45);
-
-            curpL.Location = new Point(50, 350);
-            curpP.Location = new Point(260, 350);
-            curpP.Size = new Size(300, 45);
-
-            //DIRECCION
-            direccion.Location = new Point(650, 50);
-
-            calleL.Location = new Point(650, 110);
-            calleP.Location = new Point(740, 110);
-            calleP.Size = new Size(240, 45);
-
-            numL.Location = new Point(650, 170);
-            numP.Location = new Point(740, 170);
-            numP.Size = new Size(150, 45);
-
-            coloniaL.Location = new Point(650, 230);
-            coloniaP.Location = new Point(740, 230);
-            coloniaP.Size = new Size(240, 45);
-
-            //LUGAR NACIMIENTO
-            lugarNa.Location = new Point(650, 290);
-
-
-            ciudadL.Location = new Point(650, 350);
-            ciudadP.Location = new Point(740, 350);
-            ciudadP.Size = new Size(240, 45);
-
-            estadoL.Location = new Point(650, 410);
-            estadoP.Location = new Point(740, 410);
-            estadoP.Size = new Size(240, 45);
-        }
-
-
-        //INFORMACION GENERAL ALUMNO 2
-        private void infoGen2(Label telL, TextBox tel, Panel telP, Label escuelaPL, TextBox escuelaP, Panel escuelaPP, Label canalizadoL, TextBox canalizado, Panel canalizadoP, Label cicloL,
-            TextBox ciclo, Panel cicloP, Label tipoIng, GroupBox ingresos)
-        {
-            telL.Location = new Point(50, 50);
-            telP.Location = new Point(280, 50);
-            telP.Size = new Size(150, 45);
-
-            escuelaPL.Location = new Point(50, 110);
-            escuelaPP.Location = new Point(280, 110);
-            escuelaPP.Size = new Size(250, 45);
-
-            canalizadoL.Location = new Point(50, 170);
-            canalizadoP.Location = new Point(280, 170);
-            canalizadoP.Size = new Size(250, 45);
-
-            cicloL.Location = new Point(50, 230);
-            cicloP.Location = new Point(280, 230);
-            cicloP.Size = new Size(150, 45);
-
-            tipoIng.Location = new Point(50, 290);
-
-            ingresos.Location = new Point(50, 330);
-        }
-
-        //INFORMACION TUTOR
-        private void infoTutor(Label nombreL, TextBox nombre, Panel nombreP, Label apellidoPL, TextBox apellidoP, Panel apellidoPP,
-            Label apellidoML, TextBox apellidoM, Panel apellidoMP, Label direccion, Label calleL, TextBox calle, Panel calleP, 
-            Label numL, TextBox num, Panel numP, Label coloniaL, TextBox colonia, Panel coloniaP, Label datoCalle, Label datoNumeroCasa, Label datoColonia,
-            Label infoCon, Label telCasaL,TextBox telCasa, Panel telCasaP, Label telMovilL, TextBox telMovil, Panel telMovilP, Label telTrabajoL, TextBox telTrabajo, Panel telTrabajoP,
-            Label ocupacionL, TextBox ocupacion, Panel ocupacionP, CheckBox mismaDireccion)
-        {
-
-            nombreL.Location = new Point(50, 50);
-            nombreP.Location = new Point(215, 50);
-            nombreP.Size = new Size(300, 50);
-
-            apellidoPL.Location = new Point(50, 110);
-            apellidoPP.Location = new Point(215, 110);
-            apellidoPP.Size = new Size(300, 50);
-
-            apellidoML.Location = new Point(50, 170);
-            apellidoMP.Location = new Point(215, 170);
-            apellidoMP.Size = new Size(300, 50);
-
-            direccion.Location = new Point(650, 45);
-
-            mismaDireccion.Location = new Point(770, 45);
-            mismaDireccion.Checked = false;
-
-            calleL.Location = new Point(650, 90);
-            calleP.Location = new Point(740, 90);
-            calleP.Size = new Size(300, 50);
-
-            numL.Location = new Point(650, 150);
-            numP.Location = new Point(740, 150);
-            numP.Size = new Size(150, 50);
-
-            coloniaL.Location = new Point(650, 210);
-            coloniaP.Location = new Point(740, 210);
-            coloniaP.Size = new Size(300, 50);
-
-            infoCon.Location = new Point(50, 250);
-
-            telCasaL.Location = new Point(50, 290);
-            telCasaP.Location = new Point(215, 290);
-            telCasaP.Size = new Size(150, 50);
-
-            telMovilL.Location = new Point(400, 290);
-            telMovilP.Location = new Point(550, 290);
-            telMovilP.Size = new Size(150, 50);
-
-            telTrabajoL.Location = new Point(50, 410);
-            telTrabajoP.Location = new Point(215, 410);
-            telTrabajoP.Size = new Size(150, 50);
-
-            ocupacionL.Location = new Point(50, 350);
-            ocupacionP.Location = new Point(215, 350);
-            ocupacionP.Size = new Size(300, 50);
-        }
-
-        //INFORMACION MEDICA
-        private void infoMedica(Label servMedicoL, TextBox servMed, Panel servMedP, Label grupoSanL, TextBox grupoSan, Panel grupoSanP,
-            ComboBox grupoSanCB, Label telL, TextBox tel, Panel telP, Label discapacidadL, RichTextBox discapacidad, Panel discapacidadP,
-            Label enfermedadL, RichTextBox enfermedad, Panel enfermedadP, Label alergiaL, RichTextBox alergia, Panel alergiaP,
-            Label tratamientoL, RichTextBox tratamiento, Panel tratamientoP, ComboBox discapacidadCB, ComboBox enfermedadCB, ComboBox alergiaCB,
-            Button eliTra, Button eliDisc, Button eliEnf, Button eliAle,  Button agregarDisc, Button agregarEnf, Button agregarAler)
-        {
-            servMedicoL.Location = new Point(50, 50);
-            servMedP.Location = new Point(210, 50);
-            servMedP.Size = new Size(300, 50);
-
-            grupoSanL.Location = new Point(530, 50);
-            grupoSanP.Location = new Point(700, 50);
-            grupoSanP.Size = new Size(110, 50);
-            grupoSanP.Visible = false;
-            grupoSanCB.Location = new Point(700, 50);
-            grupoSanCB.Size = new Size(110, 50);
-
-            telL.Location = new Point(830, 50);
-            telP.Location = new Point(1030, 50);
-            telP.Size = new Size(150, 45);
-
-            discapacidadL.Location = new Point(50, 150);
-            eliDisc.Location = new Point(290, 150);
-            discapacidad.Location = new Point(50, 170);
-            discapacidadCB.Location = new Point(50, 340);
-            discapacidadP.Location = new Point(50, 180);
-            discapacidadP.Size = new Size(270, 150);
-            discapacidadCB.Size = new Size(230, 60);
-            agregarDisc.Size = new Size(35, 35);
-            agregarDisc.Location = new Point(285, 335);
-            agregarDisc.Text = "";
-
-            enfermedadL.Location = new Point(340, 150);
-            eliEnf.Location = new Point(580, 150);
-            enfermedad.Location = new Point(340, 210);
-            enfermedadCB.Location = new Point(340, 340);
-            enfermedadP.Location = new Point(340, 180);
-            enfermedadP.Size = new Size(270, 150);
-            enfermedadCB.Size = new Size(230, 60);
-            agregarEnf.Size = new Size(35, 35);
-            agregarEnf.Location = new Point(575, 335);
-            agregarEnf.Text = "";
-            
-            alergiaL.Location = new Point(630, 150);
-            eliAle.Location = new Point(870, 150);
-            alergia.Location = new Point(630, 210);
-            alergiaCB.Location = new Point(630, 340);
-            alergiaP.Location = new Point(630, 180);
-            alergiaP.Size = new Size(270, 150);
-            alergiaCB.Size = new Size(230, 60);
-            agregarAler.Size = new Size(35, 35);
-            agregarAler.Location = new Point(865, 335);
-            agregarAler.Text = "";
-
-            tratamientoL.Location = new Point(920, 150);
-            eliTra.Location = new Point(1160, 150);
-            tratamientoP.Location = new Point(920, 180);
-            tratamientoP.Size = new Size(270, 150);
-        }
-
+   
         private void altaAlumno_Load(object sender, EventArgs e)
         {
             limpiarFormato1Button.Hide();
@@ -390,18 +165,11 @@ namespace presentationLayer
         }
 
 
-        private void alumnosButton_Click(object sender, EventArgs e)
-        {
-            this.Hide();
-            ConsultaAlumno formConsulta = new ConsultaAlumno();
-            formConsulta.Show();
-        }
-
         //AGREGAR ENFERMEDADES AL RICHTXTBOX
         private void agregarEnfermedadesButton_Click(object sender, EventArgs e)
         {
             string informacion = this.enfermedadesCombobox.GetItemText(this.enfermedadesCombobox.SelectedItem);
-            enfermedades.Text = enfermedades.Text + informacion + "\n";
+            enfermedadesRichTextBox.Text = enfermedadesRichTextBox.Text + informacion + "\n";
 
         }
 
@@ -409,7 +177,7 @@ namespace presentationLayer
         private void agregarDiscapacidadButton_Click(object sender, EventArgs e)
         {
             string informacion = this.discapacidadesCombobox.GetItemText(this.discapacidadesCombobox.SelectedItem);
-            discapacidad.Text = discapacidad.Text + informacion + "\n";
+            discapacidadesRichTextBox.Text = discapacidadesRichTextBox.Text + informacion + "\n";
 
         }
 
@@ -418,7 +186,7 @@ namespace presentationLayer
         {
 
             string informacion = this.alergiasCombobox.GetItemText(this.alergiasCombobox.SelectedItem);
-            alergias.Text = alergias.Text + informacion + "\n";
+            alergiasRichTextBox.Text = alergiasRichTextBox.Text + informacion + "\n";
 
         }
 
@@ -434,7 +202,7 @@ namespace presentationLayer
             calle.Clear();
             numeroCasa.Clear();
             colonia.Clear();
-            telPersonal.Clear();
+            telefonopersonalTextBox.Clear();
             escuelaP.Clear();
             canalizado.Clear();
             cicloEsc.Clear();
@@ -455,9 +223,9 @@ namespace presentationLayer
             numeroCasaT.Clear();
             coloniaT.Clear();
             ocupacion.Clear();
-            telCasaT.Clear();
-            telMovilT.Clear();
-            telTrabajoT.Clear();
+            telefonocasatutorTextBox.Clear();
+            telefonomoviltutorTextBox.Clear();
+            telefonotrabajotutorTextBox.Clear();
         }
 
         //LIMPIAR INFORMACIÓN MEDICA ALUMNO
@@ -466,43 +234,48 @@ namespace presentationLayer
             servMedico.Clear();
 
             telefono.Clear();
-            grupoSanguineo.Clear();
+            //grupoSanguineoComboBox.Clear();
             //documentacionListBox.SetItemChecked = false; *CLAUDIA CAMBIARÁ ESTO POR UN CONJUNTO DE CHECKBUTTONS*
         }
 
         //LIMPIAR DISCAPACIDADES
         private void eliminarDiscapacidadesButton_Click(object sender, EventArgs e)
         {
-            discapacidad.Clear();
+            discapacidadesRichTextBox.Clear();
         }
 
         //LIMPIAR ENFERMEDADES
         private void eliminarEnfermedadButton_Click(object sender, EventArgs e)
         {
-            enfermedades.Clear();
+            enfermedadesRichTextBox.Clear();
         }
 
         //LIMPIAR ALERGIAS
         private void eliminarAlergiasButton_Click(object sender, EventArgs e)
         {
-            alergias.Clear();
+            alergiasRichTextBox.Clear();
         }
 
         //FILLCOMBOBOX METODO PARA ALERGIAS, ENFERMEDADES Y DISCAPACIDADES
         private void loaddata()
         {
 
-            foreach (var item in businessLayer.BLEliminacionAlumno.alergiasGet())
+            foreach (var item in _1dataLayer.DLAltaAlumno.catalogoalergias())
             {
                 alergiasCombobox.Items.Add(item.alergia);
+                alergiastempcmb.Items.Add(item.id_alergias);
             }
-            foreach (var item2 in businessLayer.BLEliminacionAlumno.enfermedadesGet())
+            foreach (var item2 in _1dataLayer.DLAltaAlumno.catalogoenfermedades())
             {
-                enfermedadesCombobox.Items.Add(item2.enfermedad);
+
+                enfermedadesCombobox.Items.Add(item2.enfermedades);
+                enfermedadestempcmb.Items.Add(item2.id_enfermedades);
+
             }
-            foreach (var item3 in businessLayer.BLEliminacionAlumno.discapacidadesGet())
+           foreach (var item3 in _1dataLayer.DLAltaAlumno.catalogodiscapacidades())
             {
                 discapacidadesCombobox.Items.Add(item3.discapacidades);
+                discapacidadestempcmb.Items.Add(item3.id_discapacidades);
             }
 
         }
@@ -556,7 +329,6 @@ namespace presentationLayer
 
         private void siguiente1Button_Click(object sender, EventArgs e)
         {
-
             int curple = curp.TextLength; //Variable int que guarda la longitud de caracteres del CURP
 
             if (nombreAl.Text.Equals("") || apellidoP.Text.Equals(""))
@@ -648,7 +420,7 @@ namespace presentationLayer
 
         private void siguiente2Button_Click(object sender, EventArgs e)
         {
-            if (telPersonal.Text == "") //POR PULIR
+            if (telefonopersonalTextBox.Text == "") //POR PULIR
             {
                 DialogResult dr = MessageBox.Show("¡El telefono personal del alumno está vacio! ¿Deseas registrarlo?", "Dato requerido", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (dr == DialogResult.No)
@@ -667,7 +439,7 @@ namespace presentationLayer
                         }
                         else
                         {
-                            if (tipoIngresoGroupBox.Controls == null)
+                            if (!nuevoIngreso.Checked && !reingreso.Checked)
                             {
                                 MessageBox.Show("¡No se ha seleccionado si el alumno es nuevo Ingreso o reingreso", "Dato requerido", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             }
@@ -691,13 +463,13 @@ namespace presentationLayer
                     return;
                 }
             }
-            else if (telPersonal.TextLength < 10) //Validación si se da siguiente y el telefono está incompleto
+            else if (telefonopersonalTextBox.TextLength < 10) //Validación si se da siguiente y el telefono está incompleto
             {
-                String telPersonalAl = Convert.ToString(10 - telPersonal.TextLength);
+                String telPersonalAl = Convert.ToString(10 - telefonopersonalTextBox.TextLength);
                 MessageBox.Show("¡El telefono personal del alumno está incompleto, falta " + telPersonalAl + " numero(s)", "Dato requerido", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-            else if (telPersonal.TextLength == 10)
+            else if (telefonopersonalTextBox.TextLength == 10)
             {
                 if (canalizado.Text.Equals(""))
                 {
@@ -713,7 +485,7 @@ namespace presentationLayer
                     }
                     else
                     {
-                        if (tipoIngresoGroupBox.Controls == null)
+                        if (!nuevoIngreso.Checked && !reingreso.Checked)
                         {
                             MessageBox.Show("¡No se ha seleccionado si el alumno es nuevo Ingreso o reingreso", "Dato requerido", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         }
@@ -731,54 +503,6 @@ namespace presentationLayer
                     }
                 }
             }
-
-
-            /*if (canalizado.Text.Equals(""))
-            {
-                MessageBox.Show("¡No se ha respondido el campo \"Canalizado por\" ", "Dato requerido", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-            else
-            {
-                if (cicloEsc.Text.Equals(""))
-                {
-                    MessageBox.Show("¡No se ha ingresado el ciclo escolar", "Dato requerido", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
-                else
-                {
-                    if (telPersonal.Text == "") //POR PULIR
-                    {
-                        DialogResult dr = MessageBox.Show("¡El telefono personal del alumno está vacio! ¿Deseas registrarlo?", "Dato requerido", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                        if (dr == DialogResult.No)
-                        {
-                            informacionGeneralAlumno2.Visible = false;
-                            informacionTutor.Visible = true;
-
-                            infGeneralAlLabel.Visible = false;
-                            infoTutorLabel.Visible = true;
-
-                            siguiente2Button.Visible = false;
-                            siguiente3Button.Visible = true;
-                        }
-                        if (dr == DialogResult.Yes)
-                        {
-                            return;
-
-                        }
-                    }
-
-                    else
-                    {
-                        informacionGeneralAlumno2.Visible = false;
-                        informacionTutor.Visible = true;
-
-                        infGeneralAlLabel.Visible = false;
-                        infoTutorLabel.Visible = true;
-
-                        siguiente2Button.Visible = false;
-                        siguiente3Button.Visible = true;
-                    }
-                }
-            }*/
         }
 
         private void siguiente3Button_Click(object sender, EventArgs e)
@@ -807,24 +531,30 @@ namespace presentationLayer
                         }
                         else
                         {
-                            if (telCasaT.Text.Equals("") && telMovilT.Text.Equals("") && telTrabajoT.Text.Equals(""))
+                            if (telefonocasatutorTextBox.Text.Equals("") && telefonomoviltutorTextBox.Text.Equals("") && telefonotrabajotutorTextBox.Text.Equals(""))
                             {
                                 MessageBox.Show("¡Ingresar al menos un telefono de contacto!", "Dato requerido", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             }
-                            else {
-                                if (!telCasaT.Text.Equals("") && telCasaT.TextLength < 10) { 
+                            else
+                            {
+                                if (!telefonocasatutorTextBox.Text.Equals("") && telefonocasatutorTextBox.TextLength < 10)
+                                {
                                     MessageBox.Show("¡El telefono de casa está incompleto, debe contener 10 digitos ", "Formato incorrecto", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                                 }
                                 else
                                 {
-                                    if (!telMovilT.Text.Equals("") && telMovilT.TextLength < 10) { 
+                                    if (!telefonomoviltutorTextBox.Text.Equals("") && telefonomoviltutorTextBox.TextLength < 10)
+                                    {
                                         MessageBox.Show("¡El telefono móvil está incompleto, debe contener 10 digitos ", "Formato incorrecto", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                                     }
-                                    else {
-                                        if (!telTrabajoT.Text.Equals("") && telTrabajoT.TextLength < 10) { 
+                                    else
+                                    {
+                                        if (!telefonotrabajotutorTextBox.Text.Equals("") && telefonotrabajotutorTextBox.TextLength < 10)
+                                        {
                                             MessageBox.Show("¡El telefono del trabajo está incompleto, debe contener 10 digitos ", "Formato incorrecto", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                                         }
-                                        else { 
+                                        else
+                                        {
                                             informacionTutor.Visible = false;
                                             informacionMedicaAlumnoGroupBox.Visible = true;
 
@@ -858,24 +588,9 @@ namespace presentationLayer
 
         private void realizarAltaButton_Click_1(object sender, EventArgs e)
         {
-            string colonia_trabajo_tutor = "", calle_trabajo_tutor = "", numero_trabajo_tutor = "";
-            string peso = "", color_textura_piel = "", estatura = "", discapacidad = "", enfermedades = "", alergias = "";
+            string colonia_trabajo_tutor = "", calle_trabajo_tutor = "";
 
-
-
-
-            //businessLayer.Hueso.SetDiscapacidades(discapacidad);
-
-            //businessLayer.Hueso.SetEnfermedades(enfermedades);
-
-            //businessLayer.Hueso.SetAlergias(alergias);
-
-            //businessLayer.Hueso.setTratamiento(tratamiento);
-
-            //this.Hide();
-            //Consultas consultas = new Consultas();
-            //consultas.Show();
-
+            string peso = "", color_textura_piel = "", estatura = "";
 
             //Aquí se puede ingresar el método para realizar la alta de alumno...
             if (servMedico.Text.Equals(""))
@@ -884,7 +599,7 @@ namespace presentationLayer
             }
             else
             {
-                if (grupoSanguineo.Text.Equals(""))
+                if (grupoSanguineoComboBox.Text.Equals(""))
                 {
                     MessageBox.Show("¡Ingresar el grupo sanguineo del alumno!", "Dato requerido", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
@@ -898,7 +613,21 @@ namespace presentationLayer
                     {
                         //La validacion de Discapacidad, Enfermedad, Alergias y Tratamiento para que no se pueda hacer el alta sin dichos datos queda pendiente
                         //Para poder hacer pruebas, ya que esos datos aun no funcionan
+                        string value = "";
 
+                        if (nuevoIngreso.Checked)
+                        {
+                            value = "Nuevo Ingreso";
+                            MessageBox.Show(value);
+                        }
+                        else
+                        {
+                            if (reingreso.Checked)
+                            {
+                                value = "Reingreso";
+                                MessageBox.Show(value);
+                            }
+                        }
                         businessLayer.BLAltaAlumno.SetAlumno2(cicloEsc.Text,
                                                              nombreAl.Text,
                                                              apellidoP.Text,
@@ -911,9 +640,10 @@ namespace presentationLayer
                                                              colonia.Text,
                                                              calle.Text,
                                                              numeroCasa.Text,
-                                                             telPersonal.Text,
+                                                             telefonopersonalTextBox.Text,
                                                              escuelaP.Text,
-                                                             canalizado.Text
+                                                             canalizado.Text,
+                                                             value
                                                              );
 
                         businessLayer.BLAltaAlumno.SetTutor2(nombreT.Text,
@@ -925,14 +655,26 @@ namespace presentationLayer
                                                              ocupacion.Text,
                                                              colonia_trabajo_tutor,
                                                              calle_trabajo_tutor,
-                                                             numero_trabajo_tutor);
+                                                             telefonotrabajotutorTextBox.Text
+                                                             );
 
                         businessLayer.BLAltaAlumno.SetInfoMedAlumno2(servMedico.Text,
-                                                                     grupoSanguineo.Text,
+                                                                     grupoSanguineoComboBox.Text,
                                                                      telefono.Text,
                                                                      peso,
                                                                      color_textura_piel,
                                                                      estatura);
+
+                        businessLayer.BLAltaAlumno.SetAlergias(idalergiasListaAlta);
+
+                        businessLayer.BLAltaAlumno.SetEnfermedades(idenfermermedadesListaAlta);
+
+                        businessLayer.BLAltaAlumno.SetDiscapacidades(iddiscapacidadesListaAlta);
+
+                        businessLayer.BLAltaAlumno.SetTratamiento(tratamiento.Text);
+
+                        businessLayer.BLAltaAlumno.SetTelefonos(telefonocasatutorTextBox.Text,telefonomoviltutorTextBox.Text, telefonotrabajotutorTextBox.Text);
+
 
                         //Guardar Foto alumno   **NO BORRAR LO QUE ESTÁ COMENTADO!!!!!**
                         byte[] archivo = null;
@@ -1008,7 +750,7 @@ namespace presentationLayer
             DateTime fechaActual = DateTime.Now;
             TimeSpan diferencia = fechaActual - fechaNacimiento;
             double dias = diferencia.TotalDays;
-            double anios = Math.Floor(dias/365);
+            double anios = Math.Floor(dias / 365);
             añosCum.Text = anios.ToString();
         }
 
@@ -1121,43 +863,11 @@ namespace presentationLayer
 
         private void calle_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (Char.IsLetter(e.KeyChar))
-            {
-                e.Handled = false;
-            }
-            else if (Char.IsSeparator(e.KeyChar))
-            {
-                e.Handled = false;
-            }
-            else if (Char.IsControl(e.KeyChar))
-            {
-                e.Handled = false;
-            }
-            else
-            {
-                e.Handled = true;
-            }
 
         }
 
         private void calleT_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (Char.IsLetter(e.KeyChar))
-            {
-                e.Handled = false;
-            }
-            else if (Char.IsSeparator(e.KeyChar))
-            {
-                e.Handled = false;
-            }
-            else if (Char.IsControl(e.KeyChar))
-            {
-                e.Handled = false;
-            }
-            else
-            {
-                e.Handled = true;
-            }
 
         }
 
@@ -1228,42 +938,12 @@ namespace presentationLayer
 
         private void colonia_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (Char.IsLetter(e.KeyChar))
-            {
-                e.Handled = false;
-            }
-            else if (Char.IsSeparator(e.KeyChar))
-            {
-                e.Handled = false;
-            }
-            else if (Char.IsControl(e.KeyChar))
-            {
-                e.Handled = false;
-            }
-            else
-            {
-                e.Handled = true;
-            }
+
         }
 
         private void coloniaT_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (Char.IsLetter(e.KeyChar))
-            {
-                e.Handled = false;
-            }
-            else if (Char.IsSeparator(e.KeyChar))
-            {
-                e.Handled = false;
-            }
-            else if (Char.IsControl(e.KeyChar))
-            {
-                e.Handled = false;
-            }
-            else
-            {
-                e.Handled = true;
-            }
+
         }
 
         private void curp_KeyPress(object sender, KeyPressEventArgs e)
@@ -1292,7 +972,7 @@ namespace presentationLayer
 
         private void escuelaP_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (Char.IsLetter(e.KeyChar))
+           if (Char.IsLetter(e.KeyChar))
             {
                 e.Handled = false;
             }
@@ -1628,82 +1308,199 @@ namespace presentationLayer
         //Metodo para dar de alta enfermedades
         private void agregarEnfermedadesButton_Click_1(object sender, EventArgs e)
         {
-            ArrayList agregarEnfermedad = new ArrayList(); // Aquí está creado el arraylist
-            // _1dataLayer.enfermedadDTO al = _1dataLayer.enfermedadDTO(); // instancia de enfermedad DTO *me sale error*
-            int id_cartilla_medica = 1;
+            enfermedadesRichTextBox.Clear();
+            int posicioncomboboxTemporal = 0;
+
             try
             {
-                if (discapacidadesCombobox.SelectedItem == null)
+                if (enfermedadesCombobox.SelectedItem == null)
                 {
-                    MessageBox.Show("No puedes agregar espacio en blanco a la lista de enfermedades!");
+
+                    MessageBox.Show("Seleccione una enfermedad!");
+
                 }
                 else
                 {
-                    enfermedades.AppendText(enfermedadesCombobox.SelectedItem + "\n"); //aqui se agrega la enfermedad del combobox al richtextbox y se le concatena un salto de linea
-                    agregarEnfermedad.Add(enfermedades); //agregar la info del richtextbox a la lista
 
-                    //id_cartilla_medica = _1dataLayer.DLAltaAlumno.Altadiscapacidades(); //aqui se supone que mando a llamar el metodo para dar de alta la enfermedad pero me marca error, no sé cómo implementarlo correctamente
+                    if (listaEnfermedades.Contains(enfermedadesCombobox.SelectedItem.ToString())) 
+                    {
+
+                        MessageBox.Show("No se admiten registros duplicados");
+
+                    }
+                    else
+                    {
+
+                        listaEnfermedades.Add(enfermedadesCombobox.SelectedItem.ToString());
+
+
+                        posicioncomboboxTemporal = enfermedadesCombobox.SelectedIndex;
+
+
+                        enfermedadestempcmb.SelectedIndex = posicioncomboboxTemporal;
+
+                    
+                        idenfermermedadesListaAlta.Add(int.Parse(enfermedadestempcmb.SelectedItem.ToString()));
+
+                    }
+
+                    foreach (var item in listaEnfermedades)
+                    {
+
+                        enfermedadesRichTextBox.AppendText(item.ToString()+ "\n");
+
+                    }
+
                 }
+
             }
             catch (Exception)
             {
+
                 MessageBox.Show("Error al agregar una enfermedad!");
+
             }
         }
 
         //Metodo para dar de alta discapacidades
         private void agregarDiscapacidadesButton_Click(object sender, EventArgs e)
         {
-            ArrayList agregarDiscapacidad = new ArrayList(); // Aquí está creado el arraylist
-            // _1dataLayer.discapacidadDTO al = _1dataLayer.discapacidadDTO(); // instancia de discapacidad DTO *me sale error*
-            int id_cartilla_medica = 1;
+            discapacidadesRichTextBox.Clear();
+            int posicioncomboboxTemporal = 0;
+
             try
             {
                 if (discapacidadesCombobox.SelectedItem == null)
                 {
-                    MessageBox.Show("No puedes agregar espacio en blanco a la lista de discapacidades!");
+
+                    MessageBox.Show("Seleccione una discapacidad!");
+
                 }
                 else
                 {
-                    discapacidad.AppendText(discapacidadesCombobox.SelectedItem + "\n"); //aqui se agrega la discapacidad del combobox al richtextbox y se le concatena un salto de linea
-                    agregarDiscapacidad.Add(discapacidad); //agregar la info del richtextbox a la lista
 
-                    //id_cartilla_medica = _1dataLayer.DLAltaAlumno.Altadiscapacidades(); //aqui se supone que mando a llamar el metodo para dar de alta la discapacidad pero me marca error, no sé cómo implementarlo correctamente
+                    if (listaDiscapacidades.Contains(discapacidadesCombobox.SelectedItem.ToString()))
+                    {
+
+                        MessageBox.Show("No se admiten registros duplicados");
+
+                    }
+                    else
+                    {
+
+                        listaDiscapacidades.Add(discapacidadesCombobox.SelectedItem.ToString());
+
+
+                        posicioncomboboxTemporal = discapacidadesCombobox.SelectedIndex;
+
+                        discapacidadestempcmb.SelectedIndex = posicioncomboboxTemporal;
+
+
+                        iddiscapacidadesListaAlta.Add(int.Parse(discapacidadestempcmb.SelectedItem.ToString()));
+
+
+                    }
+
+                    foreach (var item in listaDiscapacidades)
+                    {
+
+                        discapacidadesRichTextBox.AppendText(item.ToString() + "\n");
+
+
+                    }
+
                 }
+
             }
             catch (Exception)
             {
-                MessageBox.Show("Error al agregar una discapacidad!");
-            } 
+
+                MessageBox.Show("Error al agregar una discapacidad");
+
+            }
         }
 
-        //Metodo para dar de alta alergias
+
         private void agregarAlergiasButton_Click_1(object sender, EventArgs e)
         {
-            ArrayList agregarAlergias = new ArrayList(); // Aquí está creado el arraylist
-            // _1dataLayer.alergiasDTO al = _1dataLayer.alergiasDTO(); // instancia de alergias DTO *me sale error*
-            int id_cartilla_medica = 1;
+            alergiasRichTextBox.Clear();
+            int posicioncomboboxTemporal = 0;
+
             try
             {
-                if (discapacidadesCombobox.SelectedItem == null)
+                if (alergiasCombobox.SelectedItem == null)
                 {
-                    MessageBox.Show("No puedes agregar espacio en blanco a la lista de alergias!");
+
+                    MessageBox.Show("Seleccione una alergia!");
+
                 }
                 else
                 {
-                    alergias.AppendText(alergiasCombobox.SelectedItem + "\n"); //aqui se agrega la discapacidad del combobox al richtextbox y se le concatena un salto de linea
-                    agregarAlergias.Add(alergias); //agregar la info del richtextbox a la lista
 
-                    //id_cartilla_medica = _1dataLayer.DLAltaAlumno.Altaalergias(); //aqui se supone que mando a llamar el metodo para dar de alta la alergia pero me marca error, no sé cómo implementarlo correctamente
+                    if (listaAlergias.Contains(alergiasCombobox.SelectedItem.ToString()))
+                    {
+
+                        MessageBox.Show("No se admiten registros duplicados");
+
+                    }
+                    else
+                    {
+
+                        listaAlergias.Add(alergiasCombobox.SelectedItem.ToString());
+
+
+                        posicioncomboboxTemporal = alergiasCombobox.SelectedIndex;
+
+
+                        alergiastempcmb.SelectedIndex = posicioncomboboxTemporal;
+
+
+                        idalergiasListaAlta.Add(int.Parse(alergiastempcmb.SelectedItem.ToString()));
+
+
+                    }
+
+                    foreach (var item in listaAlergias)
+                    {
+
+                        alergiasRichTextBox.AppendText(item.ToString() + "\n");
+
+                    }
+
                 }
+
             }
             catch (Exception)
             {
-                MessageBox.Show("Error al agregar una alergia!");
+
+                MessageBox.Show("Error al agregar la alaergia");
+
             }
         }
 
-   
+
+
+
+        private void eliminarAlergiasButton_Click_1(object sender, EventArgs e)
+        {
+            alergiasRichTextBox.Clear();
+        }
+
+        private void eliminarDiscapacidadesButton_Click_1(object sender, EventArgs e)
+        {
+            discapacidadesRichTextBox.Clear();
+        }
+
+        private void eliminarEnfermedadesButton_Click(object sender, EventArgs e)
+        {
+            enfermedadesRichTextBox.Clear();
+        }
+
+        private void eliminarTratamientosButton_Click(object sender, EventArgs e)
+        {
+            tratamiento.Clear();
+        }
+
     }
 }
 

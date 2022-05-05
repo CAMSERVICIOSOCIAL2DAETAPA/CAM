@@ -72,11 +72,11 @@
     <Property Name="genero" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
     <Property Name="color_textura_piel" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
     <Property Name="estatura" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <NavigationProperty Name="alergias" Relationship="Self.FK_alergias_tabla_medica" FromRole="tabla_medica" ToRole="alergias" />
-    <NavigationProperty Name="discapacidades" Relationship="Self.FK_discapacidades_tabla_medica" FromRole="tabla_medica" ToRole="discapacidades" />
-    <NavigationProperty Name="enfermedades" Relationship="Self.FK_enfermedades_tabla_medica" FromRole="tabla_medica" ToRole="enfermedades" />
     <NavigationProperty Name="alumno" Relationship="Self.alumno_cartilla" FromRole="tabla_medica" ToRole="alumno" />
     <NavigationProperty Name="Tratamientos" Relationship="BDCAMModel.FK_Tabla_Medica_Tratamiento" FromRole="tabla_medica" ToRole="Tratamientos" />
+    <NavigationProperty Name="catalogo_alergia" Relationship="BDCAMModel.medica_alergia" FromRole="tabla_medica" ToRole="catalogo_alergia" />
+    <NavigationProperty Name="catalogo_discapacidades" Relationship="BDCAMModel.medica_discapacidad" FromRole="tabla_medica" ToRole="catalogo_discapacidades" />
+    <NavigationProperty Name="catalogo_enfermedades" Relationship="BDCAMModel.medica_enfermedades" FromRole="tabla_medica" ToRole="catalogo_enfermedades" />
   </EntityType>
   <EntityType Name="turnos">
     <Key>
@@ -104,37 +104,6 @@
     <NavigationProperty Name="telefono_tutores" Relationship="Self.FK_Tuto" FromRole="tutor" ToRole="telefono_tutores" />
     <NavigationProperty Name="alumno" Relationship="Self.tutor_alumno" FromRole="tutor" ToRole="alumno" />
   </EntityType>
-  <EntityType Name="alergias">
-    <Key>
-      <PropertyRef Name="id_cartilla_medica" />
-      <PropertyRef Name="alergia" />
-    </Key>
-    <Property Name="id_cartilla_medica" Type="Int32" Nullable="false" />
-    <Property Name="alergia" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
-    <NavigationProperty Name="tabla_medica" Relationship="Self.FK_alergias_tabla_medica" FromRole="alergias" ToRole="tabla_medica" />
-  </EntityType>
-  <EntityType Name="discapacidades">
-    <Key>
-      <PropertyRef Name="id_cartilla_medica" />
-      <PropertyRef Name="discapacidades1" />
-      <PropertyRef Name="id_discapacidades" />
-    </Key>
-    <Property Name="id_cartilla_medica" Type="Int32" Nullable="false" />
-    <Property Name="discapacidades1" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
-    <NavigationProperty Name="tabla_medica" Relationship="Self.FK_discapacidades_tabla_medica" FromRole="discapacidades" ToRole="tabla_medica" />
-    <Property Name="id_discapacidades" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-  </EntityType>
-  <EntityType Name="enfermedades">
-    <Key>
-      <PropertyRef Name="id_cartilla_medica" />
-      <PropertyRef Name="enfermedad" />
-      <PropertyRef Name="id_enfermedades" />
-    </Key>
-    <Property Name="id_cartilla_medica" Type="Int32" Nullable="false" />
-    <Property Name="enfermedad" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
-    <NavigationProperty Name="tabla_medica" Relationship="Self.FK_enfermedades_tabla_medica" FromRole="enfermedades" ToRole="tabla_medica" />
-    <Property Name="id_enfermedades" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-  </EntityType>
   <EntityType Name="telefono_tutores">
     <Key>
       <PropertyRef Name="id_tutor" />
@@ -156,42 +125,6 @@
       </Principal>
       <Dependent Role="telefono_tutores">
         <PropertyRef Name="id_telefono" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_alergias_tabla_medica">
-    <End Role="tabla_medica" Type="Self.tabla_medica" Multiplicity="1" />
-    <End Role="alergias" Type="Self.alergias" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="tabla_medica">
-        <PropertyRef Name="id_cartilla_medica" />
-      </Principal>
-      <Dependent Role="alergias">
-        <PropertyRef Name="id_cartilla_medica" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_discapacidades_tabla_medica">
-    <End Role="tabla_medica" Type="Self.tabla_medica" Multiplicity="1" />
-    <End Role="discapacidades" Type="Self.discapacidades" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="tabla_medica">
-        <PropertyRef Name="id_cartilla_medica" />
-      </Principal>
-      <Dependent Role="discapacidades">
-        <PropertyRef Name="id_cartilla_medica" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_enfermedades_tabla_medica">
-    <End Role="tabla_medica" Type="Self.tabla_medica" Multiplicity="1" />
-    <End Role="enfermedades" Type="Self.enfermedades" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="tabla_medica">
-        <PropertyRef Name="id_cartilla_medica" />
-      </Principal>
-      <Dependent Role="enfermedades">
-        <PropertyRef Name="id_cartilla_medica" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -235,25 +168,10 @@
     <EntitySet Name="tabla_medica" EntityType="Self.tabla_medica" />
     <EntitySet Name="turnos" EntityType="Self.turnos" />
     <EntitySet Name="tutor" EntityType="Self.tutor" />
-    <EntitySet Name="alergias" EntityType="Self.alergias" />
-    <EntitySet Name="discapacidades" EntityType="Self.discapacidades" />
-    <EntitySet Name="enfermedades" EntityType="Self.enfermedades" />
     <EntitySet Name="telefono_tutores" EntityType="Self.telefono_tutores" />
     <AssociationSet Name="FK_Tele" Association="Self.FK_Tele">
       <End Role="tabla_indicadores_telefono" EntitySet="tabla_indicadores_telefono" />
       <End Role="telefono_tutores" EntitySet="telefono_tutores" />
-    </AssociationSet>
-    <AssociationSet Name="FK_alergias_tabla_medica" Association="Self.FK_alergias_tabla_medica">
-      <End Role="tabla_medica" EntitySet="tabla_medica" />
-      <End Role="alergias" EntitySet="alergias" />
-    </AssociationSet>
-    <AssociationSet Name="FK_discapacidades_tabla_medica" Association="Self.FK_discapacidades_tabla_medica">
-      <End Role="tabla_medica" EntitySet="tabla_medica" />
-      <End Role="discapacidades" EntitySet="discapacidades" />
-    </AssociationSet>
-    <AssociationSet Name="FK_enfermedades_tabla_medica" Association="Self.FK_enfermedades_tabla_medica">
-      <End Role="tabla_medica" EntitySet="tabla_medica" />
-      <End Role="enfermedades" EntitySet="enfermedades" />
     </AssociationSet>
     <AssociationSet Name="FK_Tuto" Association="Self.FK_Tuto">
       <End Role="tutor" EntitySet="tutor" />
@@ -281,7 +199,7 @@
     </AssociationSet>
     <FunctionImport Name="sp_altaalergias">
       <Parameter Name="id" Mode="In" Type="Int32" />
-      <Parameter Name="alergia" Mode="In" Type="String" />
+      <Parameter Name="id_alergia" Mode="In" Type="Int32" />
     </FunctionImport>
     <FunctionImport Name="SP_AltaAlumno" ReturnType="Collection(Decimal)">
       <Parameter Name="fecha_registro" Mode="In" Type="DateTime" />
@@ -318,11 +236,11 @@
     </FunctionImport>
     <FunctionImport Name="sp_altadiscapacidades">
       <Parameter Name="id_car" Mode="In" Type="Int32" />
-      <Parameter Name="dis" Mode="In" Type="String" />
+      <Parameter Name="id_discapacidad" Mode="In" Type="Int32" />
     </FunctionImport>
     <FunctionImport Name="sp_altaenfermedades">
       <Parameter Name="id_car" Mode="In" Type="Int32" />
-      <Parameter Name="enf" Mode="In" Type="String" />
+      <Parameter Name="id_enfermedades" Mode="In" Type="Int32" />
     </FunctionImport>
     <FunctionImport Name="sp_altatutor">
       <Parameter Name="nombre" Mode="In" Type="String" />
@@ -459,7 +377,124 @@
       <Parameter Name="escuela" Mode="In" Type="String" />
       <Parameter Name="documentacion" Mode="In" Type="String" />
       <Parameter Name="atendidopor" Mode="In" Type="String" />
+      <Parameter Name="tipo_ingreso" Mode="In" Type="String" />
     </FunctionImport>
+    <FunctionImport Name="Modificar_discapacidades">
+      <Parameter Name="iddiscapacidad" Mode="In" Type="Int32" />
+      <Parameter Name="discapacidad" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="Modificar_enfermedades">
+      <Parameter Name="idenfermedad" Mode="In" Type="Int32" />
+      <Parameter Name="enfermedad" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="Modificar_tratamiento">
+      <Parameter Name="Id_Cartilla" Mode="In" Type="Int32" />
+      <Parameter Name="tratamiento" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SP_consulta_foto_alumno" ReturnType="Collection(BDCAMModel.SP_consulta_foto_alumno_Result)">
+      <Parameter Name="id_alumno" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="SP_ModificacionCartilla">
+      <Parameter Name="idtabla" Mode="In" Type="Int32" />
+      <Parameter Name="Servicio" Mode="In" Type="String" />
+      <Parameter Name="Grupo_sanguineo" Mode="In" Type="String" />
+      <Parameter Name="telefono_contacto" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SP_ModificacionTutor">
+      <Parameter Name="idtutor" Mode="In" Type="Int32" />
+      <Parameter Name="nombre" Mode="In" Type="String" />
+      <Parameter Name="apellido_paterno" Mode="In" Type="String" />
+      <Parameter Name="apellido_materno" Mode="In" Type="String" />
+      <Parameter Name="calle" Mode="In" Type="String" />
+      <Parameter Name="colonia" Mode="In" Type="String" />
+      <Parameter Name="numero" Mode="In" Type="String" />
+      <Parameter Name="ocupacion" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SP_MostrarFotoAlumno" ReturnType="Collection(BDCAMModel.SP_MostrarFotoAlumno_Result)">
+      <Parameter Name="id_alumno" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="SP_Modificar_alergias">
+      <Parameter Name="id_alergia" Mode="In" Type="Int32" />
+      <Parameter Name="alergia" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SP_AltaTratamientos">
+      <Parameter Name="id_car" Mode="In" Type="Int32" />
+      <Parameter Name="tratamiento" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SP_ModificarTelefonoTutor">
+      <Parameter Name="idtutor" Mode="In" Type="Int32" />
+      <Parameter Name="idtipotelefono" Mode="In" Type="Int32" />
+      <Parameter Name="telefono" Mode="In" Type="String" />
+    </FunctionImport>
+    <EntitySet Name="catalogo_alergia" EntityType="BDCAMModel.catalogo_alergia" />
+    <EntitySet Name="catalogo_discapacidades" EntityType="BDCAMModel.catalogo_discapacidades" />
+    <EntitySet Name="catalogo_enfermedades" EntityType="BDCAMModel.catalogo_enfermedades" />
+    <AssociationSet Name="medica_alergia" Association="BDCAMModel.medica_alergia">
+      <End Role="catalogo_alergia" EntitySet="catalogo_alergia" />
+      <End Role="tabla_medica" EntitySet="tabla_medica" />
+    </AssociationSet>
+    <AssociationSet Name="medica_discapacidad" Association="BDCAMModel.medica_discapacidad">
+      <End Role="tabla_medica" EntitySet="tabla_medica" />
+      <End Role="catalogo_discapacidades" EntitySet="catalogo_discapacidades" />
+    </AssociationSet>
+    <AssociationSet Name="medica_enfermedades" Association="BDCAMModel.medica_enfermedades">
+      <End Role="tabla_medica" EntitySet="tabla_medica" />
+      <End Role="catalogo_enfermedades" EntitySet="catalogo_enfermedades" />
+    </AssociationSet>
+    <FunctionImport Name="sp_catalogoalergias" ReturnType="Collection(BDCAMModel.sp_catalogoalergias_Result)" />
+    <FunctionImport Name="sp_catalogodiscapacidades" ReturnType="Collection(BDCAMModel.sp_catalogodiscapacidades_Result)" />
+    <FunctionImport Name="sp_catalogoenfermedades" ReturnType="Collection(BDCAMModel.sp_catalogoenfermedades_Result)" />
+    <EntitySet Name="sysdiagrams" EntityType="BDCAMModel.sysdiagrams" />
+    <FunctionImport Name="sp_alterdiagram1">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_creatediagram1">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_dropdiagram1">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagramdefinition1" ReturnType="Collection(BDCAMModel.sp_helpdiagramdefinition1_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagrams1" ReturnType="Collection(BDCAMModel.sp_helpdiagrams1_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_renamediagram1">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="new_diagramname" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_upgraddiagrams1" />
+    <FunctionImport Name="SP_Eliminar_Alumno">
+      <Parameter Name="id_alumno" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="SP_Eliminacion_Alergia">
+      <Parameter Name="id_cartilla" Mode="In" Type="Int32" />
+      <Parameter Name="id_Alergia" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="SP_Eliminacion_Discapacidad">
+      <Parameter Name="id_cartilla" Mode="In" Type="Int32" />
+      <Parameter Name="id_Discapacidad" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="SP_Eliminacion_Enfermedad">
+      <Parameter Name="id_cartilla" Mode="In" Type="Int32" />
+      <Parameter Name="id_enfermedad" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="SP_Eliminacion_Tratamiento">
+      <Parameter Name="id_cartilla" Mode="In" Type="Int32" />
+      <Parameter Name="id_Tratamiento" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="SP_Lista_Egresados" ReturnType="Collection(BDCAMModel.SP_Lista_Egresados_Result)" />
   </EntityContainer>
   <ComplexType Name="SP_FichaTecnicaAlumno_Result">
     <Property Type="String" Name="nombre" Nullable="false" MaxLength="30" />
@@ -476,16 +511,16 @@
     <Property Type="String" Name="CURP_alumno" Nullable="false" MaxLength="18" />
     <Property Type="String" Name="atendido_por" Nullable="false" MaxLength="30" />
     <Property Type="String" Name="ciclo_escolar" Nullable="false" MaxLength="30" />
+    <Property Type="Int32" Name="id_alumno" Nullable="false" />
+    <Property Type="String" Name="numero_alumno" Nullable="false" MaxLength="30" />
+    <Property Type="String" Name="tipo_ingreso" Nullable="true" MaxLength="40" />
+    <Property Type="String" Name="documentacion_alumno" Nullable="true" />
   </ComplexType>
   <ComplexType Name="SP_FichaTecnicaAlumnoMedica_Result">
-    <Property Type="String" Name="nombre" Nullable="false" MaxLength="30" />
     <Property Type="String" Name="grupo_sanguineo" Nullable="false" MaxLength="30" />
     <Property Type="String" Name="telefono_contacto" Nullable="false" MaxLength="30" />
-    <Property Type="String" Name="estatura" Nullable="true" MaxLength="50" />
-    <Property Type="String" Name="genero" Nullable="true" MaxLength="50" />
-    <Property Type="String" Name="peso" Nullable="true" MaxLength="50" />
-    <Property Type="String" Name="color_textura_piel" Nullable="true" MaxLength="50" />
     <Property Type="String" Name="servicio_medico" Nullable="false" MaxLength="30" />
+    <Property Type="Int32" Name="id_cartilla_medica" Nullable="false" />
   </ComplexType>
   <ComplexType Name="SP_FichaTecnicaAlumnoTutor_Result">
     <Property Type="String" Name="nombre" Nullable="false" MaxLength="30" />
@@ -495,7 +530,7 @@
     <Property Type="String" Name="colonia_tutor" Nullable="false" MaxLength="30" />
     <Property Type="String" Name="numero_tutor" Nullable="false" MaxLength="30" />
     <Property Type="String" Name="ocupacion_tutor" Nullable="true" MaxLength="30" />
-    <Property Type="String" Name="telefono" Nullable="false" MaxLength="30" />
+    <Property Type="Int32" Name="id_tutor" Nullable="false" />
   </ComplexType>
   <ComplexType Name="sp_helpdiagramdefinition_Result">
     <Property Type="Int32" Name="version" Nullable="true" />
@@ -509,8 +544,8 @@
     <Property Type="Int32" Name="OwnerID" Nullable="false" />
   </ComplexType>
   <ComplexType Name="SP_ListaAlergia_Result">
-    <Property Type="Int32" Name="id_cartilla_medica" Nullable="false" />
     <Property Type="String" Name="alergia" Nullable="false" MaxLength="30" />
+    <Property Type="Int32" Name="id_alergias" Nullable="false" />
   </ComplexType>
   <ComplexType Name="SP_ListaAlumnos_Result">
     <Property Type="Int32" Name="id_alumno" Nullable="false" />
@@ -520,12 +555,12 @@
     <Property Type="String" Name="telefono_contacto" Nullable="false" MaxLength="30" />
   </ComplexType>
   <ComplexType Name="SP_ListaDiscapacidad_Result">
-    <Property Type="Int32" Name="id_cartilla_medica" Nullable="false" />
     <Property Type="String" Name="discapacidades" Nullable="false" MaxLength="30" />
+    <Property Type="Int32" Name="id_discapacidades" Nullable="false" />
   </ComplexType>
   <ComplexType Name="SP_ListaEnfermedad_Result">
-    <Property Type="Int32" Name="id_cartilla_medica" Nullable="false" />
-    <Property Type="String" Name="enfermedad" Nullable="false" MaxLength="30" />
+    <Property Type="Int32" Name="id_enfermedades" Nullable="false" />
+    <Property Type="String" Name="enfermedades" Nullable="false" />
   </ComplexType>
   <EntityType Name="permisos">
     <Key>
@@ -681,5 +716,90 @@
   <ComplexType Name="SP_ListaTratamiento_Result">
     <Property Type="Int32" Name="id_cartilla_medica" Nullable="false" />
     <Property Type="String" Name="Tratamiento" Nullable="false" MaxLength="255" />
+  </ComplexType>
+  <ComplexType Name="SP_consulta_foto_alumno_Result">
+    <Property Type="Int32" Name="id_alumno" Nullable="false" />
+    <Property Type="Binary" Name="imagen_alumno" Nullable="false" MaxLength="Max" />
+    <Property Type="String" Name="nombre" Nullable="false" MaxLength="100" />
+  </ComplexType>
+  <ComplexType Name="SP_MostrarFotoAlumno_Result">
+    <Property Type="Binary" Name="imagen_alumno" Nullable="false" MaxLength="Max" />
+    <Property Type="String" Name="nombre" Nullable="false" MaxLength="100" />
+  </ComplexType>
+  <EntityType Name="catalogo_alergia">
+    <Key>
+      <PropertyRef Name="id_alergias" />
+    </Key>
+    <Property Name="id_alergias" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="alergia" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="tabla_medica" Relationship="BDCAMModel.medica_alergia" FromRole="catalogo_alergia" ToRole="tabla_medica" />
+  </EntityType>
+  <EntityType Name="catalogo_discapacidades">
+    <Key>
+      <PropertyRef Name="id_discapacidades" />
+    </Key>
+    <Property Name="id_discapacidades" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="discapacidades" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="tabla_medica" Relationship="BDCAMModel.medica_discapacidad" FromRole="catalogo_discapacidades" ToRole="tabla_medica" />
+  </EntityType>
+  <EntityType Name="catalogo_enfermedades">
+    <Key>
+      <PropertyRef Name="id_enfermedades" />
+    </Key>
+    <Property Name="id_enfermedades" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="enfermedades" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="tabla_medica" Relationship="BDCAMModel.medica_enfermedades" FromRole="catalogo_enfermedades" ToRole="tabla_medica" />
+  </EntityType>
+  <Association Name="medica_alergia">
+    <End Type="BDCAMModel.catalogo_alergia" Role="catalogo_alergia" Multiplicity="*" />
+    <End Type="BDCAMModel.tabla_medica" Role="tabla_medica" Multiplicity="*" />
+  </Association>
+  <Association Name="medica_discapacidad">
+    <End Type="BDCAMModel.tabla_medica" Role="tabla_medica" Multiplicity="*" />
+    <End Type="BDCAMModel.catalogo_discapacidades" Role="catalogo_discapacidades" Multiplicity="*" />
+  </Association>
+  <Association Name="medica_enfermedades">
+    <End Type="BDCAMModel.tabla_medica" Role="tabla_medica" Multiplicity="*" />
+    <End Type="BDCAMModel.catalogo_enfermedades" Role="catalogo_enfermedades" Multiplicity="*" />
+  </Association>
+  <ComplexType Name="sp_catalogoalergias_Result">
+    <Property Type="Int32" Name="id_alergias" Nullable="false" />
+    <Property Type="String" Name="alergia" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="sp_catalogodiscapacidades_Result">
+    <Property Type="Int32" Name="id_discapacidades" Nullable="false" />
+    <Property Type="String" Name="discapacidades" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="sp_catalogoenfermedades_Result">
+    <Property Type="Int32" Name="id_enfermedades" Nullable="false" />
+    <Property Type="String" Name="enfermedades" Nullable="false" />
+  </ComplexType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <ComplexType Name="sp_helpdiagramdefinition1_Result">
+    <Property Type="Int32" Name="version" Nullable="true" />
+    <Property Type="Binary" Name="definition" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="sp_helpdiagrams1_Result">
+    <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+    <Property Type="Int32" Name="ID" Nullable="false" />
+    <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+    <Property Type="Int32" Name="OwnerID" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="SP_Lista_Egresados_Result">
+    <Property Type="Int32" Name="id_alumno" Nullable="false" />
+    <Property Type="String" Name="nombre" Nullable="false" MaxLength="30" />
+    <Property Type="String" Name="apellido_paterno" Nullable="false" MaxLength="30" />
+    <Property Type="String" Name="apellido_materno" Nullable="false" MaxLength="30" />
+    <Property Type="String" Name="telefono_contacto" Nullable="false" MaxLength="30" />
   </ComplexType>
 </Schema>

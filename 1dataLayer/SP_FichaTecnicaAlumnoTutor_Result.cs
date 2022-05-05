@@ -20,6 +20,6 @@ namespace _1dataLayer
         public string colonia_tutor { get; set; }
         public string numero_tutor { get; set; }
         public string ocupacion_tutor { get; set; }
-        public string telefono { get; set; }
+        public int id_tutor { get; set; }
     }
 }

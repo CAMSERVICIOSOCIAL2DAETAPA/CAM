@@ -40,8 +40,9 @@ namespace _1dataLayer
         public string escuela_procedencia_alumno { get; set; }
         public string documentacion_alumno { get; set; }
         public string atendido_por { get; set; }
-        public byte[] imagen { get; set; }
         public string tipo_ingreso { get; set; }
+        public byte[] imagen { get; set; }
+    
     }
    
     public class tabla_medicaDTO
@@ -96,8 +97,8 @@ namespace _1dataLayer
 
     public class telefono_tutorDTO
     {
-        public int id_tutor { get; }
-        public int id_telefono { get; }
+        public int id_tutor { get; set; }
+        public int id_telefono { get; set; }
         public int telefono { get; set; }
     }
 
@@ -136,5 +137,11 @@ namespace _1dataLayer
         public int id_alumno { get; set; }
         public byte[] imagen { get; set; }
         public string nombre { get; set; }
+    }
+
+    public class tratamientoDTO
+    {
+        public int id_cartilla { get; set; }
+        public string tratamiento { get; set; }
     }
 }

@@ -10,38 +10,39 @@ namespace _1dataLayer
     public class DLAltaAlumno
     {
 
-        //Metodo para dar de alta alergias
-        public static void Altaalergias(int id, List<alergiasDTO> alergia)
+        //Metodo para dar de alta alergias. Mandas el id del alumno despues de dar la alta y el listado con los ints de la alergia (QUEDA PENDIENTE CHECAR EL PROCEDIMIENTO EN LA SQL MANAGER)
+        public static void Altaalergias(int id, List<int> alergia)
         {
+           
             using (BDCAMEntities db = new BDCAMEntities())
             {
-                foreach (alergiasDTO alergias in alergia)
+                foreach (int al in alergia)
                 {
-                    db.sp_altaenfermedades(id, alergias.alergia);
+                    db.sp_altaalergias(id, al);
                 }
-
             }
         }
 
-        public static void Altaenfermedades(int id, List<enfermedadesDTO> enfermedad)
+        //Metodo para dar de alta enfermedades. Mandas el id del alumno despues de dar la alta y el listado con los ints de la enfermedad(QUEDA PENDIENTE CHECAR EL PROCEDIMIENTO EN LA SQL MANAGER)
+        public static void Altaenfermedades(int id, List<int> enfermedad)
         {
             using (BDCAMEntities db = new BDCAMEntities())
             {
-                foreach (enfermedadesDTO enfer in enfermedad)
+                foreach (int enfer in enfermedad)
                 {
-                    db.sp_altaenfermedades(id, enfer.enfermedad);
+                    db.sp_altaenfermedades(id, enfer);
                 }
-
             }
         }
 
-        public static void Altadiscapacidades(int id, List<discapacidadesDTO> discapacidad)
+        //Metodo para dar de alta discapacidades. Mandas el id del alumno despues de dar la alta y el listado con los ints de la discapacidad(QUEDA PENDIENTE CHECAR EL PROCEDIMIENTO EN LA SQL MANAGER)
+        public static void Altadiscapacidades(int id, List<int> discapacidad)
         {
             using (BDCAMEntities db = new BDCAMEntities())
             {
-                foreach (discapacidadesDTO disc in discapacidad)
+                foreach (int disc in discapacidad)
                 {
-                    db.sp_altaenfermedades(id, disc.discapacidades);
+                    db.sp_altadiscapacidades(id, disc);
                 }
 
             }
@@ -104,12 +105,17 @@ namespace _1dataLayer
             return id;
         }
 
-        public static void Altatelefonotutor(telefono_tutorDTO telefono)
+        //Primero manda el id del tutor, despues manda el telefono personal, despues el telefono de casa y al final el telefono del trabajo.
+        public static void Altatelefonotutor(int id_tutor, string tel_personal, string tel_casa, string tel_trabajo)
         {
-            String tel = telefono.telefono.ToString();
             using (BDCAMEntities db = new BDCAMEntities())
             {
-                db.sp_telefonotutores(telefono.id_tutor, telefono.id_telefono, tel);
+                //ID 1 PARA EL PERSONAL
+                db.sp_telefonotutores(id_tutor,1, tel_personal);
+                //ID 2 PARA EL CASA
+                db.sp_telefonotutores(id_tutor, 2, tel_casa);
+                //ID 3 PARA EL TRABAJO
+                db.sp_telefonotutores(id_tutor, 3, tel_trabajo);
             }
         }
 
@@ -130,8 +136,58 @@ namespace _1dataLayer
             }
         }
 
+        public static void altatratamiento(int cartilla,tratamientoDTO tratamiento)
+        {
+            using (BDCAMEntities db = new BDCAMEntities())
+            {
+                db.SP_AltaTratamientos(cartilla, tratamiento.tratamiento);
+            }
+        }
+        public static List<sp_catalogoenfermedades_Result> catalogoenfermedades()
+        {
+            List<sp_catalogoenfermedades_Result> enfermedades = new List<sp_catalogoenfermedades_Result>();
+            using (BDCAMEntities db = new BDCAMEntities())
+            {
+                ObjectResult<sp_catalogoenfermedades_Result> x = db.sp_catalogoenfermedades();
 
-       
+                foreach (sp_catalogoenfermedades_Result result in x)
+                {
+                    enfermedades.Add(result);
+                }
+            }
+            return enfermedades;
+        }
+
+        public static List<sp_catalogoalergias_Result> catalogoalergias()
+        {
+            List<sp_catalogoalergias_Result> alergias = new List<sp_catalogoalergias_Result>();
+            using (BDCAMEntities db = new BDCAMEntities())
+            {
+                ObjectResult<sp_catalogoalergias_Result> x = db.sp_catalogoalergias();
+
+                foreach (sp_catalogoalergias_Result result in x)
+                {
+                    alergias.Add(result);
+                }
+            }
+            return alergias;
+        }
+
+
+        public static List<sp_catalogodiscapacidades_Result> catalogodiscapacidades()
+        {
+            List<sp_catalogodiscapacidades_Result> discapacidades = new List<sp_catalogodiscapacidades_Result>();
+            using (BDCAMEntities db = new BDCAMEntities())
+            {
+                ObjectResult<sp_catalogodiscapacidades_Result> x = db.sp_catalogodiscapacidades();
+
+                foreach (sp_catalogodiscapacidades_Result result in x)
+                {
+                    discapacidades.Add(result);
+                }
+            }
+            return discapacidades;
+        }
 
     }
 }

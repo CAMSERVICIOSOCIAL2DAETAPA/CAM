@@ -75,6 +75,23 @@ namespace _1dataLayer
 
             return alumnos;
         }
+
+        public List<SP_Lista_Egresados_Result> EgresadoLista()
+        {
+            List<SP_Lista_Egresados_Result> alumnos = new List<SP_Lista_Egresados_Result>();
+            using (BDCAMEntities db = new BDCAMEntities())
+            {
+                ObjectResult<SP_Lista_Egresados_Result> y = db.SP_Lista_Egresados();
+                foreach (SP_Lista_Egresados_Result result in y)
+                {
+                    alumnos.Add(result);
+
+
+                }
+            }
+
+            return alumnos;
+        }
         //regresa la ficha tecnica de 1 solo alumno 
         public static SP_FichaTecnicaAlumno_Result FichaTenicaAlumno(int id)
         {
@@ -111,11 +128,10 @@ namespace _1dataLayer
                 foreach (SP_FichaTecnicaAlumnoMedica_Result result in x)
                     FTMedica = result;
             }
-
             return FTMedica;
         }
         //regresa la lista de todas las alergias que 1 alumno tiene
-        public List<SP_ListaAlergia_Result> ListaAlergias(int id)
+        public static List<SP_ListaAlergia_Result> ListaAlergias(int id)
         {
             List<SP_ListaAlergia_Result> alergias = new List<SP_ListaAlergia_Result>();
             using (BDCAMEntities db = new BDCAMEntities())
@@ -133,7 +149,7 @@ namespace _1dataLayer
         }
         //regresa la lista de todas las enfermedades que 1 alumno tiene
 
-        public List<SP_ListaEnfermedad_Result> ListaEnfermedades(int id)
+        public static List<SP_ListaEnfermedad_Result> ListaEnfermedades(int id)
         {
             List<SP_ListaEnfermedad_Result> enfermedades = new List<SP_ListaEnfermedad_Result>();
 
@@ -152,7 +168,7 @@ namespace _1dataLayer
         }
         //regresa la lista de todas las discapacidades que 1 alumno tiene
 
-        public List<SP_ListaDiscapacidad_Result> ListaDiscapacidad(int id)
+        public static List<SP_ListaDiscapacidad_Result> ListaDiscapacidad(int id)
         {
             List<SP_ListaDiscapacidad_Result> discapacidades = new List<SP_ListaDiscapacidad_Result>();
 
@@ -168,25 +184,74 @@ namespace _1dataLayer
 
             return discapacidades;
         }
-        public List<SP_ListaTratamiento_Result> ListaTratamiento(int id)
+        public static List<SP_ListaTratamiento_Result> ListaTratamiento(int id)
         {
-            List<SP_ListaTratamiento_Result> discapacidades = new List<SP_ListaTratamiento_Result>();
+            List<SP_ListaTratamiento_Result> tratamientos = new List<SP_ListaTratamiento_Result>();
 
             using (BDCAMEntities db = new BDCAMEntities())
             {
                 ObjectResult<SP_ListaTratamiento_Result> x = db.SP_ListaTratamiento(id);
                 foreach (SP_ListaTratamiento_Result result in x)
                 {
-                    discapacidades.Add(result);
+                    tratamientos.Add(result);
                 }
 
             }
 
-            return discapacidades;
+            return tratamientos;
+        }
+        //supuesto metodo para obtener la foto no se ha probado
+        /*public SP_MostrarFotoAlumno_Result Foto_alumno(int id)
+        {
+            SP_MostrarFotoAlumno_Result foto = new SP_MostrarFotoAlumno_Result();
+            using (BDCAMEntities db = new BDCAMEntities())
+            {
+
+                ObjectResult<SP_MostrarFotoAlumno_Result> x = db.SP_MostrarFotoAlumno(id);
+        
+                foreach(SP_MostrarFotoAlumno_Result result in x)
+                {
+                    foto = result;
+                }
+            }
+            return foto;
+        }*/
+
+
+
+        public static foto_alumno ConsultaFoto(int id)
+        {
+            foto_alumno foto = new foto_alumno();
+            using (BDCAMEntities db = new BDCAMEntities())
+            {
+                ObjectResult<SP_consulta_foto_alumno_Result> x = db.SP_consulta_foto_alumno(id);
+                foreach (SP_consulta_foto_alumno_Result result in x)
+                {
+                    foto.id_alumno = id;
+                    foto.imagen_alumno = result.imagen_alumno;
+                    foto.nombre = result.nombre;
+                }
+            }
+            return foto;
         }
 
+
+        public static List<SP_ListaTelefonosTutor_Result> consultartelefonotutor(int id)
+        {
+            List<SP_ListaTelefonosTutor_Result> telefonos = new List<SP_ListaTelefonosTutor_Result>();
+            using (BDCAMEntities db = new BDCAMEntities())
+            {
+                ObjectResult<SP_ListaTelefonosTutor_Result> x = db.SP_ListaTelefonosTutor(id);
+                foreach (SP_ListaTelefonosTutor_Result result in x)
+                {
+                    telefonos.Add(result);
+                }
+            }
+            return telefonos;
+        }
+
+
     }
-
-
 }
+
 
